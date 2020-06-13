@@ -1,0 +1,44 @@
+{
+   "name": "cyphers-discord-bot",
+   "version": "1.0.0",
+   "main": "dist/index.js",
+   "author": "Insiro",
+   "license": "MIT",
+   "private": true,
+   "scripts": {
+      "build": "yarn tsc -p tsconfig.json",
+      "lint": "yarn eslint \"src/**/*\"",
+      "lint-fix": "yarn lint --fix",
+      "start": "ts-node src/index.ts",
+      "start:dev": "yarn nodemon --watch src --ext \"ts tsx\" --delay 100ms --exec \"ts-node src/index.ts\"",
+      "start:prod": "yarn node ."
+   },
+   "dependencies": {
+      "discord-command-parser": "^1.4.3",
+      "discord.js": "^12.2.0",
+      "request": "^2.88.2",
+      "request-promise-native": "^1.0.8",
+      "sqlite3": "^4.2.0",
+      "typeorm": "0.2.25",
+      "ws": "^7.3.0",
+      "reflect-metadata": "^0.1.10",
+      "mysql": "^2.14.1"
+   },
+   "devDependencies": {
+      "@types/jest": "^26.0.0",
+      "@types/node": "^8.0.29",
+      "@types/request": "^2.48.5",
+      "@types/request-promise-native": "^1.0.17",
+      "@types/sqlite3": "^3.1.6",
+      "@types/ws": "^7.2.5",
+      "@typescript-eslint/eslint-plugin": "^3.2.0",
+      "@typescript-eslint/parser": "^3.2.0",
+      "eslint": "^7.2.0",
+      "eslint-plugin-jest": "^23.13.2",
+      "jest": "^26.0.1",
+      "nodemon": "^2.0.4",
+      "ts-jest": "^26.1.0",
+      "ts-node": "3.3.0",
+      "typescript": "3.3.3333"
+   }
+}
