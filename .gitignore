@@ -112,3 +112,4 @@ node_modules/
 build/
 tmp/
 temp/
+migration/
