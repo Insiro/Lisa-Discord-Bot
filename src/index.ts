@@ -4,6 +4,7 @@ import { DiscordApiKey } from './config';
 import { setting } from './setup';
 import { CyUsers } from './CyphersUser';
 import { cyphersOthers } from './CyphersOther';
+import { Match } from './match';
 import { help } from './help';
 const client = new Client();
 const prefix = '!!';
@@ -24,6 +25,11 @@ client.on('message', (msg): void => {
         case 'user':
         case '유저':
             void CyUsers(msg, parsed.arguments);
+            break;
+        case '매치':
+        case 'matches':
+        case 'match':
+            void Match(msg, parsed.arguments);
             break;
         default:
             void cyphersOthers(msg, parsed);

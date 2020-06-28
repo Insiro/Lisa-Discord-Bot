@@ -3,6 +3,7 @@ module.exports = {
         browser: false,
         node: true,
     },
+    
     extends: [
         'eslint:recommended',
         'plugin:@typescript-eslint/eslint-recommended',

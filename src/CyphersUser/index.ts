@@ -13,12 +13,10 @@ export const CyUsers = async (
             break;
         case 'Entirely':
         case '전적':
-            result = await getEntirelyByName(args[1]);
-            break;
-        case 'EntirelyByID':
-        case '전적ID':
-        case '전적id':
-            result = await getEntirely(args[1]);
+            if (args.length == 2) result = await getEntirelyByName(args[1]);
+            else if (args[1] == '키' || args[1] == 'key' || args[1] == 'id') {
+                result = await getEntirely(args[2]);
+            } else result = 'wrong command';
             break;
         default:
             result = 'wrong command';

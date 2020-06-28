@@ -26,19 +26,9 @@ export const getRecent = (): string => {
     return '';
 };
 
-export const getEntirelyByName = async (
-    playerName: string,
-    gameTypeId = 'normal'
-): Promise<string> => {
-    const playerID = await getPlayerID(playerName);
-    if (playerID === parseErrorMsg) return parseErrorMsg;
-    const re: string = await getEntirely(playerID);
-    return re;
-};
-
 export const getEntirely = async (
     playerID: string,
-    gameTypeId = 'normal'
+    gameTypeId = 'rating'
 ): Promise<string> => {
     const options = {
         uri: apiLink + playerID + '/matches',
@@ -51,7 +41,7 @@ export const getEntirely = async (
         const result: string = await request.get(options);
         const json = JSON.parse(result);
         const record = json['records'];
-        const s_record =
+        const sRecord =
             '- 공식  |  ' +
             record[0]['winCount'] +
             '승  |  ' +
@@ -64,9 +54,9 @@ export const getEntirely = async (
             '패\n';
 
         const matches = json['matches']['rows'];
-        var matchString = '';
-        for (var i in matches) {
-            var item = matches[i];
+        let matchString = '';
+        for (const i in matches) {
+            const item = matches[i];
             matchString +=
                 '* ' +
                 item['playInfo']['result'] +
@@ -86,7 +76,7 @@ export const getEntirely = async (
             '\t|\t최대RP\t' +
             json['maxRatingPoint'] +
             '\n------------------------\n' +
-            s_record +
+            sRecord +
             '\n------------------------\n' +
             matchString +
             '```';
@@ -94,4 +84,14 @@ export const getEntirely = async (
     } catch (error) {
         return ParseError(error);
     }
+};
+
+export const getEntirelyByName = async (
+    playerName: string,
+    gameTypeId = 'normal'
+): Promise<string> => {
+    const playerID = await getPlayerID(playerName);
+    if (playerID === parseErrorMsg) return parseErrorMsg;
+    const re: string = await getEntirely(playerID);
+    return re;
 };
