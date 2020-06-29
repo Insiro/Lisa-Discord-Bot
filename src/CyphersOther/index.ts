@@ -47,9 +47,6 @@ export const cyphersOthers = async (
 export const CyMatch = (): string => {
     return '';
 };
-export const getMatchInfo = (): string => {
-    return '';
-};
 export const getRankings = (): string => {
     return '';
 };
