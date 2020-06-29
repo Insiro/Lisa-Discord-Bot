@@ -1,5 +1,5 @@
-export const parseErrorMsg = 'ParseError';
+export const parseErrorMsg = 'Failed to load data\nplz check args';
 export const ParseError = (error: Error): string => {
     console.log(error);
-    return 'parseError';
+    return parseErrorMsg;
 };

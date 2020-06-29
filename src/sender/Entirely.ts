@@ -1,7 +1,8 @@
 import { CyphersApiKey, CyApiLink } from '../config';
 import { ParseError, parseErrorMsg } from '../error';
-const apiLink: string = CyApiLink + 'players/';
 import * as request from 'request-promise-native';
+
+const apiLink: string = CyApiLink + 'players/';
 
 export const getPlayerID = async (playerName: string): Promise<string> => {
     const options = {
@@ -23,9 +24,11 @@ export const getRecent = (): string => {
 };
 
 export const getEntirely = async (
-    playerID: string,
+    playerName: string,
     gameTypeId = 'rating'
 ): Promise<string> => {
+    const playerID = await getPlayerID(playerName);
+    if (playerID === parseErrorMsg) return parseErrorMsg;
     const options = {
         uri: apiLink + playerID + '/matches',
         qs: {
@@ -80,14 +83,4 @@ export const getEntirely = async (
     } catch (error) {
         return ParseError(error);
     }
-};
-
-export const getEntirelyByName = async (
-    playerName: string,
-    gameTypeId = 'normal'
-): Promise<string> => {
-    const playerID = await getPlayerID(playerName);
-    if (playerID === parseErrorMsg) return parseErrorMsg;
-    const re: string = await getEntirely(playerID);
-    return re;
 };

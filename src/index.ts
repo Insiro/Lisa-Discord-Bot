@@ -1,38 +1,37 @@
 import { Client } from 'discord.js';
 import { parse } from 'discord-command-parser';
 import { DiscordApiKey } from './config';
-import { setting } from './setup';
-import { CyUsers } from './CyphersUser';
-import { cyphersOthers } from './CyphersOther';
-import { Match } from './match';
-import { help } from './help';
+import * as sender from './sender';
 const client = new Client();
 const prefix = '!!';
 
 client.on('message', (msg): void => {
     const parsed = parse(msg, prefix);
+
     if (!parsed.success) return;
     switch (parsed.command) {
         case 'help':
         case '도움말':
-            void help(msg, parsed.arguments);
+        case '명령어':
+        case 'command':
+            void sender.helper(msg, parsed.arguments);
             break;
         case 'setting':
-        case 'settings':
         case '설정':
-            void setting(msg, parsed.arguments);
+            void sender.setting(msg, parsed.arguments);
             break;
-        case 'user':
-        case '유저':
-            void CyUsers(msg, parsed.arguments);
+        case 'entirely':
+        case '전적':
+            void sender.entirely(msg, parsed.arguments);
             break;
         case '매치':
-        case 'matches':
         case 'match':
-            void Match(msg, parsed.arguments);
+            void sender.match(msg, parsed.arguments);
             break;
+        case 'ranking':
+        case '랭킹':
+            void sender.ranking(msg, parsed.arguments);
         default:
-            void cyphersOthers(msg, parsed);
     }
 });
 
