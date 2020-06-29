@@ -3,10 +3,6 @@ import { ParseError, parseErrorMsg } from '../error';
 const apiLink: string = CyApiLink + 'players/';
 import * as request from 'request-promise-native';
 
-export const getUserInfo = (): string => {
-    return '';
-};
-
 export const getPlayerID = async (playerName: string): Promise<string> => {
     const options = {
         uri: apiLink,
