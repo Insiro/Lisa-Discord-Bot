@@ -36,6 +36,7 @@ export const setting = async (
     msg: Message,
     args: Array<string>
 ): Promise<void> => {
+    //msg.author
     msg.channel.send(setup(args));
 };
 export const wrong = async (msg: Message): Promise<void> => {

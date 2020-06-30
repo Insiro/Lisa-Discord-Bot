@@ -1,7 +1,6 @@
-import { CyApiLink, CyphersApiKey } from '../config';
-import {  ParseError } from '../error';
+import { CyphersApiKey } from '../config';
+import { ParseError, CyApiLink } from '../values';
 import * as request from 'request-promise-native';
-
 
 export const matchInfo = async (matchKey: string): Promise<string> => {
     const options = {
@@ -58,7 +57,13 @@ export const matchInfo = async (matchKey: string): Promise<string> => {
             }
             if (!iswin) losestr += playerString;
         }
-        return outString + '\n> __승리 팀__ ' + winstr + '\n> __패배 팀__ ' + losestr;
+        return (
+            outString +
+            '\n> __승리 팀__ ' +
+            winstr +
+            '\n> __패배 팀__ ' +
+            losestr
+        );
     } catch (error) {
         return ParseError(error);
     }
