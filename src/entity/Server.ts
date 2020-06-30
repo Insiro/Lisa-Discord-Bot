@@ -1,13 +1,13 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Server {
     @PrimaryColumn()
     serverId!: string;
 
-    @Column()
-    channel!: string;
+    @Column({ default: null, nullable: true, type: String })
+    channel?: string | null;
 
-    @Column()
-    role!: string;
+    @Column({ default: null, nullable: true, type: String })
+    role?: string | null;
 }

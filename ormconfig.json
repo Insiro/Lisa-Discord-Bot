@@ -1,18 +1,17 @@
 {
-   "synchronize": true,
-   "logging": false,
-   "entities": [
-      "src/entity/**/*.ts"
-   ],
-   "migrations": [
-      "src/migration/**/*.ts"
-   ],
-   "subscribers": [
-      "src/subscriber/**/*.ts"
-   ],
-   "cli": {
-      "entitiesDir": "src/entity",
-      "migrationsDir": "src/migration",
-      "subscribersDir": "src/subscriber"
-   }
+    "synchronize": true,
+    "entities": ["dist/entity/*.ts", "dist/entity/*.js"],
+    "migrations": ["dist/migration/*.ts", "dist/migration/*.js"],
+    "subscribers": ["dist/subscriber/*.ts", "dist/subscriber/*.js"],
+    "cli": {
+        "entitiesDir": "./src/entity",
+        "migrationsDir": "./src/migration",
+        "subscribersDir": "./src/subscriber"
+    },
+    "type": "sqlite",
+    "database": "db.sqlite3",
+    "migrationRun": true,
+    "autoSchemaSync": true,
+    "schema": "sync",
+    "migration": "generate"
 }
