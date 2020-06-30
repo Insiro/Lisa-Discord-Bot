@@ -112,3 +112,4 @@ build/
 tmp/
 temp/
 migration/
+db.sqlite3
