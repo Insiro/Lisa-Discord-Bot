@@ -11,8 +11,10 @@ export const setup = async (
 
     switch (args[0]) {
         case '채널':
+        case 'channel':
             break;
         case '클랜주소':
+        case 'clanLink':
             outStr = await setClan(msg.guild!.id.toString(), args[1]);
             break;
         default:

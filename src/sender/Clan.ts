@@ -4,22 +4,31 @@ import { getRepository } from 'typeorm';
 import * as request from 'request-promise-native';
 import * as cheerio from 'cheerio';
 
-const getClanLink = async (guildID: string): Promise<string | null> => {
+const getClanLink = async (
+    guildID: string,
+    isNaver: boolean
+): Promise<string | null> => {
     const server: Server = (await getRepository('server')
         .createQueryBuilder()
         .where('serverId = :Sid', { Sid: guildID })
         .getOne()) as Server;
     if (server.clan === null) return null;
-    return 'http://cyphers.nexon.com/cyphers/clan/' + server.clan;
+    const host = isNaver
+        ? 'http://cyphers.playnetwork.co.kr/'
+        : 'http://cyphers.nexon.com/';
+    return host + 'cyphers/clan/' + server.clan;
 };
 
-const getClanSite = async (guildID: string): Promise<string> => {
-    const clan = await getClanLink(guildID);
+const getClanSite = async (
+    guildID: string,
+    isNaver: boolean
+): Promise<string> => {
+    const clan = await getClanLink(guildID, isNaver);
     return clan === null ? 'not setted Clan Link yet' : clan;
 };
 
 const playingMember = async (guidID: string): Promise<string> => {
-    const clanUri = await getClanLink(guidID);
+    const clanUri = await getClanLink(guidID, false);
     if (clanUri === null) return 'not setted Clan Link yet';
     const re = await request.get(clanUri);
     const html = cheerio.load(re);
@@ -44,10 +53,17 @@ export const clanController = async (
     }
     switch (args[0]) {
         case '접속자':
+        case 'players':
             result = await playingMember(msg.guild.id.toString());
             break;
         case '홈피':
-            result = await getClanSite(msg.guild.id.toString());
+        case 'site':
+            if (
+                args.length === 2 &&
+                (args[1] === '네이버' || args[1] === 'naver')
+            )
+                result = await getClanSite(msg.guild.id.toString(), true);
+            else result = await getClanSite(msg.guild.id.toString(), false);
             break;
         default:
             result = 'wrong command';
