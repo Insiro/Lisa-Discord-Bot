@@ -2,27 +2,27 @@ import { getEntirely } from './Entirely';
 import { getMatchInfo } from './Match';
 import { help } from './Help';
 import { Message } from 'discord.js';
-import { parse } from 'discord-command-parser';
+import { parse, SuccessfulParsedMessage } from 'discord-command-parser';
 import { getRanking } from './Ranking';
 import { setup } from './Setup';
 import { clanController } from './Clan';
+import { Server } from '../entity/Server';
+import { getGuildInfo } from '../utils/GuildInfo';
 
-export const sender = async (msg: Message): Promise<void> => {
-    const prefix = '!!';
-    const parsed = parse(msg, prefix);
-    if (!parsed.success) return;
+const normalCommander = async (
+    msg: Message,
+    parsed: SuccessfulParsedMessage<Message>
+): Promise<void> => {
+    const info: Server | null = await getGuildInfo(msg.guild);
+    if (
+        info !== null &&
+        info.channel !== null &&
+        msg.channel.id.toString() !== info.channel
+    ) {
+        return;
+    }
     let sendString: string;
     switch (parsed.command) {
-        case 'help':
-        case '도움말':
-        case '명령어':
-        case 'command':
-            sendString = help(parsed.arguments);
-            break;
-        case 'setting':
-        case '설정':
-            sendString = await setup(msg, parsed.arguments);
-            break;
         case 'entirely':
         case '전적':
             sendString = await getEntirely(parsed.arguments[0]);
@@ -40,6 +40,29 @@ export const sender = async (msg: Message): Promise<void> => {
             sendString = await getRanking(parsed.arguments[0]);
             break;
         default:
+            return;
+    }
+    msg.channel.send(sendString);
+};
+
+export const sender = async (msg: Message): Promise<void> => {
+    const prefix = '!!';
+    const parsed = parse(msg, prefix);
+    if (!parsed.success) return;
+    let sendString: string;
+    switch (parsed.command) {
+        case 'setting':
+        case '설정':
+            sendString = await setup(msg, parsed.arguments);
+            break;
+        case 'help':
+        case '도움말':
+        case '명령어':
+        case 'command':
+            sendString = help(parsed.arguments);
+            break;
+        default:
+            normalCommander(msg, parsed);
             return;
     }
     msg.channel.send(sendString);

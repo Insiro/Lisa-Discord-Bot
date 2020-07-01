@@ -2,26 +2,14 @@ import { Message } from 'discord.js';
 import { setRole } from './role';
 import { setClan } from './clan';
 import { setPrefix } from './prefix';
-import { getRepository } from 'typeorm';
 import { Server } from '../../entity/Server';
-import { setResposeChannel, resetChannel } from './channel';
-
+import { setChannel } from './channel';
+import { getGuildInfo } from '../../utils/GuildInfo';
 const hasPermission = async (msg: Message): Promise<boolean> => {
-    if (
-        msg.guild === null &&
-        msg.member === null &&
-        !msg.member!.hasPermission('ADMINISTRATOR')
-    )
-        return true;
-    const info: Server = (await getRepository('server')
-        .createQueryBuilder()
-        .where('serverId =:sID', { sID: msg.guild!.id.toString() })
-        .getOne()) as Server;
-    if (
-        info.role !== null &&
-        msg.member!.roles.cache.has(info.role!) &&
-        (info.channel === null || info.channel === msg.channel.id.toString())
-    )
+    const info: Server | null = await getGuildInfo(msg.guild);
+    if (info === null && msg.member === null) return false;
+    if (msg.member!.hasPermission('ADMINISTRATOR')) return true;
+    if (info!.role !== null && msg.member!.roles.cache.has(info!.role!))
         return true;
     return false;
 };
@@ -31,13 +19,11 @@ export const setup = async (
     args: Array<string>
 ): Promise<string> => {
     let outStr = "haven't permision";
-    if (args[0] === '채널초기화' || args[0] === 'resetChannel')
-        return resetChannel(msg.guild);
     if (!(await hasPermission(msg))) return "haven't permission";
     switch (args[0]) {
         case '채널':
         case 'channel':
-            outStr = await setResposeChannel(msg.guild!, args[1]);
+            outStr = await setChannel(msg.guild!, args[1]);
             break;
         case '클랜주소':
         case 'clanLink':

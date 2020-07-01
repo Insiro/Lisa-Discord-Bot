@@ -1,11 +1,12 @@
 import { getRepository } from 'typeorm';
 import { Guild } from 'discord.js';
-export const setResposeChannel = async (
+
+const setResposeChannel = async (
     guild: Guild,
     channelID: string
 ): Promise<string> => {
     const channel = guild.channels.cache.get(channelID);
-    if (channel === undefined) return 'failed to set respose Channel';
+    if (channel === undefined) return 'failed to find Channel';
     const repo = getRepository('server');
     await repo
         .createQueryBuilder()
@@ -18,17 +19,32 @@ export const setResposeChannel = async (
         });
     return 'changed respose Channel to ' + channel.name;
 };
-export const resetChannel = async (guild: Guild | null): Promise<string> => {
-    if (guild == null) return 'Not in Server';
+const resetChannel = async (guildID: string | null): Promise<string> => {
     const repo = getRepository('server');
     await repo
         .createQueryBuilder()
         .update()
         .set({ channel: null })
-        .where('serverId = :gID', { gID: guild.id.toString() })
+        .where('serverId = :gID', { gID: guildID })
         .execute()
         .catch(() => {
             return 'failed to set respose Channel\nPlz rejoin Bot';
         });
     return 'success to reset';
+};
+
+export const setChannel = async (
+    guild: Guild,
+    subCommand: string
+): Promise<string> => {
+    if (guild === null) return 'Not in Server';
+    switch (subCommand) {
+        case '초기화':
+        case 'reset':
+        case null:
+        case '':
+            return resetChannel(guild.id.toString());
+        default:
+            return setResposeChannel(guild, subCommand);
+    }
 };
