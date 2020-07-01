@@ -4,15 +4,24 @@ import { getRepository } from 'typeorm';
 import * as request from 'request-promise-native';
 import * as cheerio from 'cheerio';
 
-const playingMember = async (guidID: string): Promise<string> => {
+const getClanLink = async (guildID: string): Promise<string | null> => {
     const server: Server = (await getRepository('server')
         .createQueryBuilder()
-        .where('serverId = :Sid', { Sid: guidID })
+        .where('serverId = :Sid', { Sid: guildID })
         .getOne()) as Server;
-    if (server.clan === null) return 'not setted Clan Link yet';
-    const re = await request.get(
-        'http://cyphers.nexon.com/cyphers/clan/' + server.clan
-    );
+    if (server.clan === null) return null;
+    return 'http://cyphers.nexon.com/cyphers/clan/' + server.clan;
+};
+
+const getClanSite = async (guildID: string): Promise<string> => {
+    const clan = await getClanLink(guildID);
+    return clan === null ? 'not setted Clan Link yet' : clan;
+};
+
+const playingMember = async (guidID: string): Promise<string> => {
+    const clanUri = await getClanLink(guidID);
+    if (clanUri === null) return 'not setted Clan Link yet';
+    const re = await request.get(clanUri);
     const html = cheerio.load(re);
     const memberList = html('.member_list > p')
         .text()
@@ -22,7 +31,6 @@ const playingMember = async (guidID: string): Promise<string> => {
         .join('')
         .trim()
         .split(',');
-
     return '```+\n' + memberList.join('\n') + '```';
 };
 
@@ -38,8 +46,11 @@ export const clanController = async (
         case '접속자':
             result = await playingMember(msg.guild.id.toString());
             break;
+        case '홈피':
+            result = await getClanSite(msg.guild.id.toString());
+            break;
         default:
-            result = '준비중입니다';
+            result = 'wrong command';
     }
     return result;
 };
