@@ -10,4 +10,6 @@ export class Server {
 
     @Column({ default: null, nullable: true, type: String })
     role?: string | null;
+    @Column({ default: null, nullable: true, type: String })
+    clan?: string | null;
 }
