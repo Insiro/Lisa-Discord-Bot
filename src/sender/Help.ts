@@ -7,8 +7,8 @@ const commands: Array<string> = [
 
 const settingList: Array<string> = ['> 준비중 입니다.'];
 
-export const help = (args: Array<String>): string => {
-    if (args.length == 0)
+export const help = (args: Array<string>): string => {
+    if (args.length === 0)
         return commands.join('\n') + '\nclass 설정\n' + settingList.join('\n');
     switch (args[0]) {
         default:

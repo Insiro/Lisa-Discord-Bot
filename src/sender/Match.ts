@@ -2,7 +2,39 @@ import { CyphersApiKey } from '../config';
 import { ParseError, CyApiLink } from '../values';
 import * as request from 'request-promise-native';
 
-export const matchInfo = async (matchKey: string): Promise<string> => {
+const getPlayerStr = (userJson: any): string => {
+    const playerInfo = userJson.playInfo;
+    let playerString =
+        '\n```' + userJson.nickname + '\t' + playerInfo.characterName;
+    //position info
+    playerString +=
+        '\n> ' +
+        userJson.position.name +
+        '  |  ' +
+        userJson.position.attribute[0].name +
+        '  |  ' +
+        userJson.position.attribute[1].name +
+        '  |  ' +
+        userJson.position.attribute[2].name;
+
+    playerString +=
+        '\n> lv.' +
+        playerInfo.level +
+        '  |  ' +
+        playerInfo.killCount +
+        ' 킬 |  ' +
+        (parseInt(playerInfo.attackPoint) / 1000).toFixed(1) +
+        'k  |  ' +
+        playerInfo.assistCount +
+        ' 어시  |  ' +
+        playerInfo.deathCount +
+        '데스  |  ' +
+        (parseInt(playerInfo.damagePoint) / 1000).toFixed(1) +
+        'k```';
+    return playerString;
+};
+
+export const getMatchInfo = async (matchKey: string): Promise<string> => {
     const options = {
         uri: CyApiLink + '/matches/' + matchKey,
         qs: {
@@ -11,51 +43,23 @@ export const matchInfo = async (matchKey: string): Promise<string> => {
     };
     try {
         const json = JSON.parse(await request.get(options));
-        var outString: string = '시간 : ' + json.date;
-        var win;
-        if (json.teams[0].result == 'win') win = json.teams[0].players;
+        const outString: string = '시간 : ' + json.date;
+        let win;
+        if (json.teams[0].result === 'win') win = json.teams[0].players;
         else win = json.teams[1].players;
-        var winstr: string = '';
-        var losestr: string = '';
-        for (var player in json.players) {
-            var user = json.players[player];
-            var playerInfo = user.playInfo;
-            let playerString: string = '';
-            playerString =
-                '\n```' + user.nickname + '\t' + playerInfo.characterName;
-            playerString +=
-                '\n> ' +
-                user.position.name +
-                '  |  ' +
-                user.position.attribute[0].name +
-                '  |  ' +
-                user.position.attribute[1].name +
-                '  |  ' +
-                user.position.attribute[2].name;
-
-            playerString +=
-                '\n> lv.' +
-                playerInfo.level +
-                '  |  ' +
-                playerInfo.killCount +
-                ' 킬 |  ' +
-                (parseInt(playerInfo.attackPoint) / 1000).toFixed(1) +
-                'k  |  ' +
-                playerInfo.assistCount +
-                ' 어시  |  ' +
-                playerInfo.deathCount +
-                '데스  |  ' +
-                (parseInt(playerInfo.damagePoint) / 1000).toFixed(1) +
-                'k```';
-            var iswin = false;
-            for (var winner in win) {
-                if (win[winner] == user.playerId) {
+        let winstr = '';
+        let losestr = '';
+        for (const player in json.players) {
+            const user = json.players[player];
+            let iswin = false;
+            for (const winner in win) {
+                if (win[winner] === user.playerId) {
                     iswin = true;
-                    winstr += playerString;
+                    winstr += getPlayerStr(user);
                     break;
                 }
             }
-            if (!iswin) losestr += playerString;
+            if (!iswin) losestr += getPlayerStr(user);
         }
         return (
             outString +

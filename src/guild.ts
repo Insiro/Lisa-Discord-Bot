@@ -1,4 +1,4 @@
-import { getConnection, InsertResult } from 'typeorm';
+import { getConnection } from 'typeorm';
 import { Guild } from 'discord.js';
 import 'reflect-metadata';
 export const deleteGuild = async (guild: Guild): Promise<void> => {

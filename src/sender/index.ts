@@ -1,44 +1,46 @@
 import { getEntirely } from './Entirely';
-import { matchInfo } from './Match';
+import { getMatchInfo } from './Match';
 import { help } from './Help';
 import { Message } from 'discord.js';
-import { CyRanking } from './Ranking';
+import { parse } from 'discord-command-parser';
+import { getRanking } from './Ranking';
 import { setup } from './Setup';
 import { clanController } from './Clan';
-export const entirely = async (
-    msg: Message,
-    args: Array<string>
-): Promise<void> => {
-    msg.channel.send(await getEntirely(args[0]));
-};
 
-export const match = async (
-    msg: Message,
-    args: Array<string>
-): Promise<void> => {
-    msg.channel.send(await matchInfo(args[0]));
-};
-
-export const helper = (msg: Message, args: Array<string>): void => {
-    msg.channel.send(help(args));
-};
-export const ranking = async (
-    msg: Message,
-    args: Array<string>
-): Promise<void> => {
-    msg.channel.send(await CyRanking(args[0]));
-};
-
-export const setting = async (
-    msg: Message,
-    args: Array<string>
-): Promise<void> => {
-    //msg.author
-    msg.channel.send(await setup(msg, args));
-};
-export const wrong = (msg: Message): void => {
-    msg.channel.send('wrong Command');
-};
-export const clan = (msg: Message, args: Array<string>): void => {
-    clanController(msg, args);
+export const sender = async (msg: Message): Promise<void> => {
+    const prefix = '!!';
+    const parsed = parse(msg, prefix);
+    if (!parsed.success) return;
+    let sendString: string;
+    switch (parsed.command) {
+        case 'help':
+        case '도움말':
+        case '명령어':
+        case 'command':
+            sendString = help(parsed.arguments);
+            break;
+        case 'setting':
+        case '설정':
+            sendString = await setup(msg, parsed.arguments);
+            break;
+        case 'entirely':
+        case '전적':
+            sendString = await getEntirely(parsed.arguments[0]);
+            break;
+        case '매치':
+        case 'match':
+            sendString = await getMatchInfo(parsed.arguments[0]);
+            break;
+        case 'clan':
+        case '클랜':
+            sendString = await clanController(msg, parsed.arguments);
+            break;
+        case 'ranking':
+        case '랭킹':
+            sendString = await getRanking(parsed.arguments[0]);
+            break;
+        default:
+            return;
+    }
+    msg.channel.send(sendString);
 };

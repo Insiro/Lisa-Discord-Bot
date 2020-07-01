@@ -2,7 +2,7 @@ import { CyphersApiKey } from '../config';
 import { CyApiLink } from '../values';
 import * as request from 'request-promise-native';
 
-export const CyRanking = async (offset: string): Promise<string> => {
+export const getRanking = async (offset: string): Promise<string> => {
     const Options = {
         uri: CyApiLink + 'ranking/ratingpoint',
         qs: {

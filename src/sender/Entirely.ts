@@ -4,7 +4,7 @@ import * as request from 'request-promise-native';
 
 const apiLink: string = CyApiLink + 'players/';
 
-export const getPlayerID = async (playerName: string): Promise<string> => {
+const getPlayerID = async (playerName: string): Promise<string> => {
     const options = {
         uri: apiLink,
         qs: {
@@ -18,56 +18,54 @@ export const getPlayerID = async (playerName: string): Promise<string> => {
         return ParseError(error);
     }
 };
-
-export const getRecent = (): string => {
-    return '';
+const recordStr = (recordJson: any): string => {
+    return (
+        '- 공식  |  ' +
+        recordJson[0]['winCount'] +
+        '승  |  ' +
+        recordJson[0]['loseCount'] +
+        '패\n' +
+        '- 일반  |  ' +
+        recordJson[1]['winCount'] +
+        '승  |  ' +
+        recordJson[1]['loseCount'] +
+        '패\n'
+    );
 };
-
+const matchStr = (matchJson: any): string => {
+    let result = '';
+    for (const i in matchJson) {
+        const item = matchJson[i];
+        result +=
+            '* ' +
+            item['playInfo']['result'] +
+            '\t' +
+            item['playInfo']['characterName'] +
+            '\t' +
+            item['position']['name'] +
+            '\n ' +
+            item['matchId'] +
+            '\n';
+    }
+    return result;
+};
 export const getEntirely = async (
     playerName: string,
     gameTypeId = 'rating'
 ): Promise<string> => {
     const playerID = await getPlayerID(playerName);
     if (playerID === parseErrorMsg) return parseErrorMsg;
-    const options = {
-        uri: apiLink + playerID + '/matches',
-        qs: {
-            gameTypeId: gameTypeId,
-            apikey: CyphersApiKey,
-        },
-    };
     try {
+        const options = {
+            uri: apiLink + playerID + '/matches',
+            qs: {
+                gameTypeId: gameTypeId,
+                apikey: CyphersApiKey,
+            },
+        };
         const result: string = await request.get(options);
         const json = JSON.parse(result);
-        const record = json['records'];
-        const sRecord =
-            '- 공식  |  ' +
-            record[0]['winCount'] +
-            '승  |  ' +
-            record[0]['loseCount'] +
-            '패\n' +
-            '- 일반  |  ' +
-            record[1]['winCount'] +
-            '승  |  ' +
-            record[1]['loseCount'] +
-            '패\n';
-
-        const matches = json['matches']['rows'];
-        let matchString = '';
-        for (const i in matches) {
-            const item = matches[i];
-            matchString +=
-                '* ' +
-                item['playInfo']['result'] +
-                '\t' +
-                item['playInfo']['characterName'] +
-                '\t' +
-                item['position']['name'] +
-                '\n ' +
-                item['matchId'] +
-                '\n';
-        }
-        const outstring: string =
+        return (
             '```markdown\n' +
             json['nickname'] +
             '\t|\t' +
@@ -75,11 +73,11 @@ export const getEntirely = async (
             '\t|\t최대RP\t' +
             json['maxRatingPoint'] +
             '\n------------------------\n' +
-            sRecord +
+            recordStr(json['records']) +
             '\n------------------------\n' +
-            matchString +
-            '```';
-        return outstring;
+            matchStr(json['matches']['rows']) +
+            '```'
+        );
     } catch (error) {
         return ParseError(error);
     }
