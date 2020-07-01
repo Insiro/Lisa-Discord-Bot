@@ -40,6 +40,12 @@ const playingMember = async (guidID: string): Promise<string> => {
         .join('')
         .trim()
         .split(',');
+    if (
+        memberList.length === 0 ||
+        (memberList.length === 1 && memberList[0] === '')
+    ) {
+        return '```nobody playing game, right now```';
+    }
     return '```+\n' + memberList.join('\n') + '```';
 };
 
