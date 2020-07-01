@@ -1,5 +1,5 @@
 import { CyphersApiKey } from '../config';
-import { ParseError, CyApiLink } from '../values';
+import { ParseError, CyApiLink } from '../utils/values';
 import * as request from 'request-promise-native';
 
 const getPlayerStr = (userJson: any): string => {
