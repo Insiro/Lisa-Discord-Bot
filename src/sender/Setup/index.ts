@@ -4,12 +4,22 @@ import { setClan } from './clan';
 import { setPrefix } from './prefix';
 import { Server } from '../../entity/Server';
 import { setChannel } from './channel';
-import { getGuildInfo } from '../../utils/GuildInfo';
+import { getGuildInfo } from '../../utils/guild';
 const hasPermission = async (msg: Message): Promise<boolean> => {
     const info: Server | null = await getGuildInfo(msg.guild);
-    if (info === null && msg.member === null) return false;
+    if (
+        info === null &&
+        info === undefined &&
+        msg.member === undefined &&
+        msg.member === null
+    )
+        return false;
     if (msg.member!.hasPermission('ADMINISTRATOR')) return true;
-    if (info!.role !== null && msg.member!.roles.cache.has(info!.role!))
+    if (
+        info!.role !== null &&
+        info!.role !== undefined &&
+        msg.member!.roles.cache.has(info!.role!)
+    )
         return true;
     return false;
 };

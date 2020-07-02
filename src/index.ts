@@ -2,7 +2,7 @@ import { Client } from 'discord.js';
 import { DiscordApiKey } from './config';
 import { createConnection } from 'typeorm';
 
-import * as guildInit from './guild';
+import * as guildInit from './utils/guild';
 import { sender } from './sender';
 import 'reflect-metadata';
 

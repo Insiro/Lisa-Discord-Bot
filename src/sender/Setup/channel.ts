@@ -6,7 +6,8 @@ const setResposeChannel = async (
     channelID: string
 ): Promise<string> => {
     const channel = guild.channels.cache.get(channelID);
-    if (channel === undefined) return 'failed to find Channel';
+    if (channel === undefined || channel === null)
+        return 'failed to find Channel';
     const repo = getRepository('server');
     await repo
         .createQueryBuilder()
@@ -37,7 +38,7 @@ export const setChannel = async (
     guild: Guild,
     subCommand: string
 ): Promise<string> => {
-    if (guild === null) return 'Not in Server';
+    if (guild === null || guild === undefined) return 'Not in Server';
     switch (subCommand) {
         case '초기화':
         case 'reset':

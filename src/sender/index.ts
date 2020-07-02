@@ -7,7 +7,7 @@ import { getRanking } from './Ranking';
 import { setup } from './Setup';
 import { clanController } from './Clan';
 import { Server } from '../entity/Server';
-import { getGuildInfo } from '../utils/GuildInfo';
+import { getGuildInfo } from '../utils/guild';
 import { prefix } from '../config';
 const normalCommander = async (
     msg: Message,

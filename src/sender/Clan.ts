@@ -1,6 +1,7 @@
 import { Message } from 'discord.js';
 import { Server } from '../entity/Server';
 import { getRepository } from 'typeorm';
+import { getGuildInfo_s } from '../utils/guild';
 import * as request from 'request-promise-native';
 import * as cheerio from 'cheerio';
 
@@ -8,11 +9,9 @@ const getClanLink = async (
     guildID: string,
     isNaver: boolean
 ): Promise<string | null> => {
-    const server: Server = (await getRepository('server')
-        .createQueryBuilder()
-        .where('serverId = :Sid', { Sid: guildID })
-        .getOne()) as Server;
-    if (server.clan === null) return null;
+    const server: Server | null = await getGuildInfo_s(guildID);
+    if (server === null || server.clan === null || server.clan === undefined)
+        return null;
     const host = isNaver
         ? 'http://cyphers.playnetwork.co.kr/'
         : 'http://cyphers.nexon.com/';
@@ -54,7 +53,7 @@ export const clanController = async (
     args: Array<string>
 ): Promise<string> => {
     let result = '';
-    if (msg.guild === null) {
+    if (msg.guild === null || msg.guild === undefined) {
         return '서버 에서만 가능합니다.';
     }
     switch (args[0]) {

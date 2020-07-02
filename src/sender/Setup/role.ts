@@ -6,7 +6,7 @@ export const setRole = async (
 ): Promise<string> => {
     const roleName = args.join(' ');
     const role = guild.roles.cache.find((role) => role.name === roleName);
-    if (role === undefined) return 'Wrong Role Name';
+    if (role === undefined || role === null) return 'Wrong Role Name';
     const repo = getRepository('server');
     await repo
         .createQueryBuilder()
