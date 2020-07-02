@@ -8,7 +8,7 @@ import { setup } from './Setup';
 import { clanController } from './Clan';
 import { Server } from '../entity/Server';
 import { getGuildInfo } from '../utils/GuildInfo';
-
+import { prefix } from '../config';
 const normalCommander = async (
     msg: Message,
     parsed: SuccessfulParsedMessage<Message>
@@ -46,7 +46,6 @@ const normalCommander = async (
 };
 
 export const sender = async (msg: Message): Promise<void> => {
-    const prefix = '!!';
     const parsed = parse(msg, prefix);
     if (!parsed.success) return;
     let sendString: string;
