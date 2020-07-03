@@ -31,7 +31,7 @@ yarn start
 
 ### Bot Join Link
 
-https://discord.com/api/oauth2/authorize?client_id=719503554854912032&permissions=522304&scope=bot
+https://top.gg/bot/719503554854912032
 
 ### commands
 
