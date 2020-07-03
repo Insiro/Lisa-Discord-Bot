@@ -1,4 +1,4 @@
-import { Server } from '../entity/Server';
+import { BotServer } from '../entity/BotServer';
 import { Guild } from 'discord.js';
 import { getRepository, getConnection } from 'typeorm';
 import { prefix } from '../config';
@@ -42,22 +42,22 @@ export const registGuild = async (guild: Guild): Promise<void> => {
 
 export const getGuildInfo_s = async (
     guildID: string
-): Promise<Server | null> => {
+): Promise<BotServer | null> => {
     if (guildID === undefined || guildID === '') return null;
-    let server: Server | null | undefined = (await getRepository('server')
+    let server: BotServer | null | undefined = (await getRepository('server')
         .createQueryBuilder()
         .where('serverId =:sID', { sID: guildID })
-        .getOne()) as Server;
+        .getOne()) as BotServer;
     if (server === undefined || server === null) {
         registGuild_s(guildID);
-        server = new Server();
+        server = new BotServer();
         server.serverId = guildID;
     }
     return server;
 };
 export const getGuildInfo = async (
     guild: Guild | null
-): Promise<Server | null> => {
+): Promise<BotServer | null> => {
     if (guild === null || guild === undefined) return null;
     return getGuildInfo_s(guild.id.toString());
 };

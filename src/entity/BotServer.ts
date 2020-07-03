@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, BaseEntity } from 'typeorm';
+import { prefix } from '../config';
 
 @Entity()
-export class Server {
+export class BotServer extends BaseEntity {
     @PrimaryColumn()
     serverId!: string;
 

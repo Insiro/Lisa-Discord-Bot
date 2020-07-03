@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { Server } from '../entity/Server';
+import { BotServer } from '../entity/BotServer';
 import { getRepository } from 'typeorm';
 import { getGuildInfo_s } from '../utils/guild';
 import * as request from 'request-promise-native';
@@ -9,7 +9,7 @@ const getClanLink = async (
     guildID: string,
     isNaver: boolean
 ): Promise<string | null> => {
-    const server: Server | null = await getGuildInfo_s(guildID);
+    const server: BotServer | null = await getGuildInfo_s(guildID);
     if (server === null || server.clan === null || server.clan === undefined)
         return null;
     const host = isNaver

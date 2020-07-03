@@ -6,14 +6,14 @@ import { parse, SuccessfulParsedMessage } from 'discord-command-parser';
 import { getRanking } from './Ranking';
 import { setup } from './Setup';
 import { clanController } from './Clan';
-import { Server } from '../entity/Server';
+import { BotServer } from '../entity/BotServer';
 import { getGuildInfo } from '../utils/guild';
 import { prefix } from '../config';
 const normalCommander = async (
     msg: Message,
     parsed: SuccessfulParsedMessage<Message>
 ): Promise<void> => {
-    const info: Server | null = await getGuildInfo(msg.guild);
+    const info: BotServer | null = await getGuildInfo(msg.guild);
     if (
         info !== null &&
         info.channel !== null &&

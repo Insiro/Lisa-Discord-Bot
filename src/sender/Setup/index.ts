@@ -2,11 +2,11 @@ import { Message } from 'discord.js';
 import { setRole } from './role';
 import { setClan } from './clan';
 import { setPrefix } from './prefix';
-import { Server } from '../../entity/Server';
+import { BotServer } from '../../entity/BotServer';
 import { setChannel } from './channel';
 import { getGuildInfo } from '../../utils/guild';
 const hasPermission = async (msg: Message): Promise<boolean> => {
-    const info: Server | null = await getGuildInfo(msg.guild);
+    const info: BotServer | null = await getGuildInfo(msg.guild);
     if (
         info === null &&
         info === undefined &&
