@@ -1,7 +1,6 @@
 import { Message } from 'discord.js';
 import { BotServer } from '../entity/BotServer';
-import { getRepository } from 'typeorm';
-import { getGuildInfo_s } from '../utils/guild';
+import { getGuildInfoStr } from '../utils/guild';
 import * as request from 'request-promise-native';
 import * as cheerio from 'cheerio';
 
@@ -9,7 +8,7 @@ const getClanLink = async (
     guildID: string,
     isNaver: boolean
 ): Promise<string | null> => {
-    const server: BotServer | null = await getGuildInfo_s(guildID);
+    const server: BotServer | null = await getGuildInfoStr(guildID);
     if (server === null || server.clan === null || server.clan === undefined)
         return null;
     const host = isNaver
@@ -23,12 +22,15 @@ const getClanSite = async (
     isNaver: boolean
 ): Promise<string> => {
     const clan = await getClanLink(guildID, isNaver);
-    return clan === null ? 'not setted Clan Link yet' : clan;
+    return clan === null || clan === undefined
+        ? 'not setted Clan Link yet'
+        : clan;
 };
 
 const playingMember = async (guidID: string): Promise<string> => {
     const clanUri = await getClanLink(guidID, false);
-    if (clanUri === null) return 'not setted Clan Link yet';
+    if (clanUri === null || clanUri === undefined)
+        return 'not setted Clan Link yet';
     const re = await request.get(clanUri);
     const html = cheerio.load(re);
     const memberList = html('.member_list > p')

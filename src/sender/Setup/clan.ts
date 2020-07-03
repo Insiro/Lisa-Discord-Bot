@@ -1,17 +1,13 @@
-import { getRepository } from 'typeorm';
+import { getGuildInfo } from '../../utils/guild';
+import { Guild } from 'discord.js';
+
 export const setClan = async (
-    guildID: string,
+    guild: Guild,
     newClanLink: string
 ): Promise<string> => {
-    const repo = getRepository('server');
-    await repo
-        .createQueryBuilder()
-        .update()
-        .set({ clan: newClanLink })
-        .where('serverId = :gID', { gID: guildID.toString() })
-        .execute()
-        .catch(() => {
-            return 'failed to set Clan Link';
-        });
+    const server = await getGuildInfo(guild);
+    if (server === null) return 'failed to set Clan Link';
+    server.clan = newClanLink;
+    server.save();
     return 'changed clan Link to ' + newClanLink;
 };

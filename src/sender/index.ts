@@ -17,6 +17,7 @@ const normalCommander = async (
     if (
         info !== null &&
         info.channel !== null &&
+        info.channel !== undefined &&
         msg.channel.id.toString() !== info.channel
     ) {
         return;
