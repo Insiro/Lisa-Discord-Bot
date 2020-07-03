@@ -15,7 +15,8 @@ const registGuildStr = async (guildID: string): Promise<boolean> => {
         server.serverId = guildID;
         await server.save();
         return true;
-    } catch {
+    } catch (error) {
+        console.log(error);
         return false;
     }
 };
