@@ -35,6 +35,8 @@ https://top.gg/bot/719503554854912032
 https://discord.com/oauth2/authorize?client_id=719503554854912032&scope=bot&permissions=523328
 ### commands
 
+call with `!!command`
+
 1. `normal commands`
 
 > 전적 <유저 이름> : 해당유저의 전적을 검색합니다.  
