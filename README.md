@@ -31,8 +31,8 @@ yarn start
 
 ### Bot Join Link
 
-https://top.gg/bot/719503554854912032  
-https://discord.com/oauth2/authorize?client_id=719503554854912032&scope=bot&permissions=523328
+top.gg : https://top.gg/bot/719503554854912032  
+invite Link : https://discord.com/oauth2/authorize?client_id=719503554854912032&scope=bot&permissions=523328
 ### commands
 
 call with `!!command`
