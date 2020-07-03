@@ -21,7 +21,7 @@
         "request": "^2.88.2",
         "request-promise-native": "^1.0.8",
         "sqlite3": "^4.2.0",
-        "typeorm": "0.2.25",
+        "typeorm": "0.2.22",
         "cheerio": "^1.0.0-rc.3",
         "ws": "^7.3.0"
     },
