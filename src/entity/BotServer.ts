@@ -1,6 +1,5 @@
 import { Column, Entity, PrimaryColumn, BaseEntity } from 'typeorm';
 import { prefix } from '../config';
-
 @Entity()
 export class BotServer extends BaseEntity {
     @PrimaryColumn()
@@ -13,6 +12,6 @@ export class BotServer extends BaseEntity {
     role?: string | null;
     @Column({ default: null, nullable: true, type: String })
     clan?: string | null;
-    @Column({ default: '!!', type: String })
+    @Column({ default: prefix, type: String })
     prefix!: string;
 }

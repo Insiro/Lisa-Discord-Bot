@@ -18,6 +18,7 @@ const getPlayerID = async (playerName: string): Promise<string> => {
         return ParseError(error);
     }
 };
+
 const recordStr = (recordJson: any): string => {
     const winRate =
         (parseInt(recordJson[0]['winCount']) * 100) /
@@ -38,6 +39,7 @@ const recordStr = (recordJson: any): string => {
         '패\n'
     );
 };
+
 const matchStr = (matchJson: any): string => {
     let result = '';
     for (const i in matchJson) {
@@ -55,6 +57,7 @@ const matchStr = (matchJson: any): string => {
     }
     return result;
 };
+
 export const getEntirely = async (
     playerName: string,
     gameTypeId = 'rating'

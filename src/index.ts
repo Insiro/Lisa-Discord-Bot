@@ -19,6 +19,7 @@ async function main(): Promise<void> {
         (guild): void => void guildInit.deleteGuild(guild)
     );
     const connection = await createConnection();
+    await connection.synchronize();
     await client.login(DiscordApiKey);
     console.log('start CyphersDiscord Bot!!');
 }
