@@ -26,7 +26,7 @@ const normalCommander = async (
     switch (parsed.command) {
         case 'entirely':
         case '전적':
-            sendString = await getEntirely(parsed.arguments[0]);
+            sendString = await getEntirely(parsed.arguments);
             break;
         case '매치':
         case 'match':

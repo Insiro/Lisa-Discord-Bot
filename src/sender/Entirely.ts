@@ -58,17 +58,18 @@ const matchStr = (matchJson: any): string => {
     return result;
 };
 
-export const getEntirely = async (
-    playerName: string,
-    gameTypeId = 'rating'
-): Promise<string> => {
-    let gameType: string;
-    if (gameTypeId === 'normal') gameType = '일반';
-    else {
-        gameTypeId = 'rating';
-        gameType = '공식';
+export const getEntirely = async (args: Array<string>): Promise<string> => {
+    let gameTypeId = 'rating';
+    let gameType = '공식';
+    if (args.length === 0) return 'wrong args';
+    else if (
+        args.length === 2 &&
+        (args[1] === 'normal' || args[1] === '일반')
+    ) {
+        gameType = args[1];
+        gameTypeId = 'normal';
     }
-    const playerID = await getPlayerID(playerName);
+    const playerID = await getPlayerID(args[0]);
     if (playerID === parseErrorMsg) return parseErrorMsg;
     try {
         const options = {
