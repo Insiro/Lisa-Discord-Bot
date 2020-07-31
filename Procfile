@@ -1,1 +1,1 @@
-. yarn start
+bot yarn start
