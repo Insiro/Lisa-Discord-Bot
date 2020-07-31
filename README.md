@@ -4,7 +4,8 @@
 
 using node-js 14  
 install from https://nodejs.org/  
-sqlite3
+postgresql
+install from https://www.postgresql.org/
 
 1. change API Tokens
    change \`config.ts\`
@@ -18,7 +19,7 @@ sqlite3
 ```
 yarn install
 yarn build
-yarn typeorm schema:sync
+yarn typeorm migration:run
 ```
 
 ## run bot
@@ -31,7 +32,6 @@ yarn start
 
 ### Bot Join Link
 
-top.gg : https://top.gg/bot/719503554854912032  
 invite Link : https://discord.com/oauth2/authorize?client_id=719503554854912032&scope=bot&permissions=523328
 ### commands
 
