@@ -24,19 +24,15 @@ const normalCommander = async (
     }
     let sendString: string;
     switch (parsed.command) {
-        case 'entirely':
         case '전적':
             sendString = await getEntirely(parsed.arguments);
             break;
         case '매치':
-        case 'match':
             sendString = await getMatchInfo(parsed.arguments[0]);
             break;
-        case 'clan':
         case '클랜':
             sendString = await clanController(msg, parsed.arguments);
             break;
-        case 'ranking':
         case '랭킹':
             sendString = await getRanking(parsed.arguments[0]);
             break;
@@ -51,14 +47,11 @@ export const sender = async (msg: Message): Promise<void> => {
     if (!parsed.success) return;
     let sendString: string;
     switch (parsed.command) {
-        case 'setting':
         case '설정':
             sendString = await setup(msg, parsed.arguments);
             break;
         case 'help':
         case '도움말':
-        case '명령어':
-        case 'command':
             sendString = help(parsed.arguments);
             break;
         default:

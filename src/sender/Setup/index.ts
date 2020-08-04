@@ -29,14 +29,11 @@ export const setup = async (
     if (!(await hasPermission(msg))) return "haven't permission";
     switch (args[0]) {
         case '채널':
-        case 'channel':
             outStr = await setChannel(msg.guild, args[1]);
             break;
         case '클랜주소':
-        case 'clanLink':
             outStr = await setClan(msg.guild, args[1]);
             break;
-        case 'role':
         case '역할':
             outStr = await setRole(msg.guild, args.slice(1));
             break;
