@@ -4,7 +4,9 @@ function noramlCommands(): MessageEmbed {
     const embed = new MessageEmbed()
         .setColor('#0099ff')
         .setTitle('명령어')
-        .setAuthor('Insiro', 'https://github.com/Insiro/cyphers-Discord-Bot')
+        .setDescription(
+            '기여 / 버그제보 : https://github.com/Insiro/cyphers-Discord-Bot'
+        )
         .addField('명령어 / 도움말', '명령어들을 확인합니다.')
         .addField(
             '전적 <유저 이름> <공식 / 일반>',
