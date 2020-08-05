@@ -6,9 +6,6 @@ export async function setSubscribeChannel(
     channelID: string
 ): Promise<string> {
     const server = await getGuildInfo(guild);
-    const channel = guild.channels.cache.get(channelID);
-    if (channel === undefined || channel === null)
-        return 'failed to find Channel';
     if (server === null) {
         return 'failed to set subscribe channel ';
     }
@@ -16,7 +13,11 @@ export async function setSubscribeChannel(
         server.newsChannel = null;
         await server.save();
         return 'remove news subscribe channel';
-    } else server.newsChannel = channelID;
+    }
+    const channel = guild.channels.cache.get(channelID);
+    if (channel === undefined || channel === null)
+        return 'failed to find Channel';
+    else server.newsChannel = channelID;
     await server.save();
     return 'changed news subscribe Channel to ' + channel.name;
 }

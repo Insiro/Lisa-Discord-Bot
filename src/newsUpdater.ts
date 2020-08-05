@@ -60,25 +60,29 @@ export async function worker(client: Client): Promise<void> {
     if (news !== undefined && news !== null) {
         const datas: Array<any> = [];
         for (const item of event) {
-            if (item.pubDate > news.event) {
+            if (item.pubDate[0] > news.event) {
                 datas.push(item);
             } else break;
         }
         for (const item of magazine) {
-            if (item.pubDate > news.magazine) {
+            if (item.pubDate[0] > news.magazine) {
                 datas.push(item);
             } else break;
         }
         for (const item of update) {
-            if (item.pubDate > news.update) {
+            if (item.pubDate[0] > news.update) {
                 datas.push(item);
             } else break;
         }
         for (const item of notic) {
-            if (item.pubDate > news.notic) {
+            if (item.pubDate[0] > news.notic) {
                 datas.push(item);
             } else break;
         }
+        news.event = event[0].pubDate[0];
+        news.magazine = magazine[0].pubDate[0];
+        news.update = update[0].pubDate[0];
+        news.notic = notic[0].pubDate[0];
         embedList = data2Embed(datas);
     } else {
         news = new News();
@@ -87,11 +91,11 @@ export async function worker(client: Client): Promise<void> {
         news.magazine = new Date(magazine[0].pubDate);
         news.update = new Date(update[0].pubDate);
         news.notic = new Date(notic[0].pubDate);
-        news.save();
         embedList = data2Embed(event.concat(magazine, update, notic));
     }
     embedList.forEach((embed) => {
         sendEmbed(client, embed);
     });
+    news.save();
     return;
 }
