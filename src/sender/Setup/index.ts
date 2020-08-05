@@ -1,6 +1,7 @@
 import { Message } from 'discord.js';
 import { setRole } from './role';
 import { setClan } from './clan';
+import { setSubscribeChannel} from './news';
 import { setPrefix } from './prefix';
 import { BotServer } from '../../entity/BotServer';
 import { setChannel } from './channel';
@@ -36,6 +37,9 @@ export const setup = async (
             break;
         case '역할':
             outStr = await setRole(msg.guild, args.slice(1));
+            break;
+        case '구독':
+            outStr = await setSubscribeChannel(msg.guild, args[1]);
             break;
         default:
             outStr = 'Wrong Command';
