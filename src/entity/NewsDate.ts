@@ -1,15 +1,15 @@
 import { Entity, BaseEntity, PrimaryColumn, Column } from 'typeorm';
 
 @Entity()
-export class News extends BaseEntity {
+export class NewsDate extends BaseEntity {
     @PrimaryColumn()
     id!: number;
-    @Column({ type: 'date' })
+    @Column({ type: 'timestamp' })
     notic!: Date;
-    @Column({ type: 'date' })
+    @Column({ type: 'timestamp' })
     update!: Date;
-    @Column({ type: 'date' })
+    @Column({ type: 'timestamp' })
     magazine!: Date;
-    @Column({ type: 'date' })
+    @Column({ type: 'timestamp' })
     event!: Date;
 }

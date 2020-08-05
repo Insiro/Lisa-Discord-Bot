@@ -2,7 +2,7 @@ import * as request from 'request-promise-native';
 import * as cheerio from 'cheerio';
 import { parseString } from 'xml2js';
 
-import { News } from './entity/News';
+import { NewsDate } from './entity/NewsDate';
 import { BotServer } from './entity/BotServer';
 import { MessageEmbed, Client, TextChannel } from 'discord.js';
 
@@ -56,7 +56,7 @@ export async function worker(client: Client): Promise<void> {
         'http://cyphers.nexon.com/cyphers/article/notice/rss'
     );
     let embedList: Array<MessageEmbed>;
-    let news = await News.findOne({ where: { id: 1 } });
+    let news = await NewsDate.findOne({ where: { id: 1 } });
     if (news !== undefined && news !== null) {
         const datas: Array<any> = [];
         for (const item of event) {
@@ -85,7 +85,7 @@ export async function worker(client: Client): Promise<void> {
         news.notic = notic[0].pubDate[0];
         embedList = data2Embed(datas);
     } else {
-        news = new News();
+        news = new NewsDate();
         news.id = 1;
         news.event = new Date(event[0].pubDate);
         news.magazine = new Date(magazine[0].pubDate);
