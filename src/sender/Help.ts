@@ -36,6 +36,8 @@ function settingCommands(): MessageEmbed {
         )
         .addField('채널 <채널ID>', '봇의 반응을 허용할 채널을 설정합니다')
         .addField('채널 초기화 ', ' 반응 허용할 채널을 초기화 합니다')
+        .addField("구독 <채널ID>", "신규 공지, 매거진 등을 해당 채널로 알람오게 합니다")
+        .addField("구독 취소","알림 구독을 취소합니다")
         .addField(
             '클랜주소 <PageKey>',
             ' 클랜의 주소를 설정합니다.\ncyphers.nexon.com/cyphers/clan/<PageKey>'
