@@ -22,7 +22,7 @@ const normalCommander = async (
     ) {
         return;
     }
-    let sendString: string;
+    let sendString: string|MessageEmbed;
     switch (parsed.command) {
         case '전적':
             sendString = await getEntirely(parsed.arguments);

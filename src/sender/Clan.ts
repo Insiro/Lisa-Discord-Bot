@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import { BotServer } from '../entity/BotServer';
 import { getGuildInfoStr } from '../utils/guild';
 import * as request from 'request-promise-native';
@@ -20,11 +20,14 @@ const getClanLink = async (
 const getClanSite = async (
     guildID: string,
     isNaver: boolean
-): Promise<string> => {
+): Promise<string | MessageEmbed> => {
     const clan = await getClanLink(guildID, isNaver);
     return clan === null || clan === undefined
         ? 'not setted Clan Link yet'
-        : clan;
+        : new MessageEmbed()
+            .setTitle('클랜 홈페이지')
+            .setURL(clan)
+            .setDescription(isNaver ? 'naver publish' : 'nexon publish')
 };
 
 const playingMember = async (guidID: string): Promise<string> => {
@@ -53,8 +56,8 @@ const playingMember = async (guidID: string): Promise<string> => {
 export const clanController = async (
     msg: Message,
     args: Array<string>
-): Promise<string> => {
-    let result = '';
+): Promise<string | MessageEmbed> => {
+    let result: string | MessageEmbed;
     if (msg.guild === null || msg.guild === undefined) {
         return '서버 에서만 가능합니다.';
     }
