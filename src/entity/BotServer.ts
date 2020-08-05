@@ -14,4 +14,6 @@ export class BotServer extends BaseEntity {
     clan?: string | null;
     @Column({ default: prefix, type: String })
     prefix!: string;
+    @Column({ default:null, nullable:true, type:String})
+    newsChannel?:string | null;
 }
