@@ -42,6 +42,19 @@ function data2Embed(data: Array<any>): Array<MessageEmbed> {
     return list;
 }
 
+function pushDataList(
+    parsedData: any,
+    compareDate: Date,
+    list: Array<any>
+): void {
+    for (const item of parsedData) {
+        const date = new Date(item.pubDate[0]);
+        if (date > compareDate) {
+            list.push(item);
+        } else break;
+    }
+}
+
 export async function worker(client: Client): Promise<void> {
     const event = await getData(
         'http://cyphers.nexon.com/cyphers/article/event/rss'
@@ -59,26 +72,10 @@ export async function worker(client: Client): Promise<void> {
     let news = await NewsDate.findOne({ where: { id: 1 } });
     if (news !== undefined && news !== null) {
         const datas: Array<any> = [];
-        for (const item of event) {
-            if (item.pubDate[0] > news.event) {
-                datas.push(item);
-            } else break;
-        }
-        for (const item of magazine) {
-            if (item.pubDate[0] > news.magazine) {
-                datas.push(item);
-            } else break;
-        }
-        for (const item of update) {
-            if (item.pubDate[0] > news.update) {
-                datas.push(item);
-            } else break;
-        }
-        for (const item of notic) {
-            if (item.pubDate[0] > news.notic) {
-                datas.push(item);
-            } else break;
-        }
+        pushDataList(event, news.event, datas);
+        pushDataList(magazine, news.magazine, datas);
+        pushDataList(update, news.update, datas);
+        pushDataList(notic, news.notic, datas);
         news.event = event[0].pubDate[0];
         news.magazine = magazine[0].pubDate[0];
         news.update = update[0].pubDate[0];
