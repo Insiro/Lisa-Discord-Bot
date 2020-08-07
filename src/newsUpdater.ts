@@ -28,30 +28,24 @@ async function sendEmbed(client: Client, embed: MessageEmbed): Promise<void> {
     });
 }
 
-function datas2Embeds(dataList: Array<any>): Array<MessageEmbed> {
-    const embedList: Array<MessageEmbed> = [];
-    dataList.forEach((data) => {
-        const embed = new MessageEmbed()
-            .setTitle(data.title[0])
-            .setURL(data.link[0])
-            .addField('<<분류>>', data.category[0])
-            .addField('<<링크>>', data.link[0]);
-        if (data.category[0] !== 'notice')
-            embed.setDescription(data.description[0]);
-        embedList.push(embed);
-    });
-    return embedList;
-}
 
-function pushDataList(
+
+function pushEmbedList(
     parsedData: any,
-    compareDate: Date,
-    list: Array<any>
+    compareDate: Date | null,
+    embedList: Array<MessageEmbed>
 ): void {
     for (const item of parsedData) {
         const date = new Date(item.pubDate[0]);
-        if (date > compareDate) {
-            list.push(item);
+        if (compareDate === null || date > compareDate) {
+            const embed = new MessageEmbed()
+                .setTitle(item.title[0])
+                .setURL(item.link[0])
+                .addField('<<분류>>', item.category[0])
+                .addField('<<링크>>', item.link[0]);
+            if (item.category[0] !== 'notice')
+                embed.setDescription(item.description[0]);
+            embedList.push(embed);
         } else break;
     }
 }
@@ -69,27 +63,28 @@ export async function worker(client: Client): Promise<void> {
     const notic = await getData(
         'http://cyphers.nexon.com/cyphers/article/notice/rss'
     );
-    let embedList: Array<MessageEmbed>;
+    const embedList: Array<MessageEmbed> = [];
     let news = await NewsDate.findOne({ where: { id: 1 } });
     if (news !== undefined && news !== null) {
-        const datas: Array<any> = [];
-        pushDataList(event, news.event, datas);
-        pushDataList(magazine, news.magazine, datas);
-        pushDataList(update, news.update, datas);
-        pushDataList(notic, news.notic, datas);
+        pushEmbedList(event, news.event, embedList);
+        pushEmbedList(magazine, news.magazine, embedList);
+        pushEmbedList(update, news.update, embedList);
+        pushEmbedList(notic, news.notic, embedList);
         news.event = event[0].pubDate[0];
         news.magazine = magazine[0].pubDate[0];
         news.update = update[0].pubDate[0];
         news.notic = notic[0].pubDate[0];
-        embedList = datas2Embeds(datas);
     } else {
         news = new NewsDate();
         news.id = 1;
+        pushEmbedList(event, null, embedList);
+        pushEmbedList(magazine, null, embedList);
+        pushEmbedList(update, null, embedList);
+        pushEmbedList(notic, null, embedList);
         news.event = new Date(event[0].pubDate);
         news.magazine = new Date(magazine[0].pubDate);
         news.update = new Date(update[0].pubDate);
         news.notic = new Date(notic[0].pubDate);
-        embedList = datas2Embeds(event.concat(magazine, update, notic));
     }
     embedList.forEach((embed) => {
         sendEmbed(client, embed);
