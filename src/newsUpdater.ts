@@ -28,18 +28,19 @@ async function sendEmbed(client: Client, embed: MessageEmbed): Promise<void> {
     });
 }
 
-function data2Embed(data: Array<any>): Array<MessageEmbed> {
-    const list: Array<MessageEmbed> = [];
-    data.forEach((data) => {
+function datas2Embeds(dataList: Array<any>): Array<MessageEmbed> {
+    const embedList: Array<MessageEmbed> = [];
+    dataList.forEach((data) => {
         const embed = new MessageEmbed()
             .setTitle(data.title[0])
-            .setURL(data.link[0]);
-
+            .setURL(data.link[0])
+            .addField('<<분류>>', data.category[0])
+            .addField('<<링크>>', data.link[0]);
         if (data.category[0] !== 'notice')
             embed.setDescription(data.description[0]);
-        list.push(embed);
+        embedList.push(embed);
     });
-    return list;
+    return embedList;
 }
 
 function pushDataList(
@@ -80,7 +81,7 @@ export async function worker(client: Client): Promise<void> {
         news.magazine = magazine[0].pubDate[0];
         news.update = update[0].pubDate[0];
         news.notic = notic[0].pubDate[0];
-        embedList = data2Embed(datas);
+        embedList = datas2Embeds(datas);
     } else {
         news = new NewsDate();
         news.id = 1;
@@ -88,7 +89,7 @@ export async function worker(client: Client): Promise<void> {
         news.magazine = new Date(magazine[0].pubDate);
         news.update = new Date(update[0].pubDate);
         news.notic = new Date(notic[0].pubDate);
-        embedList = data2Embed(event.concat(magazine, update, notic));
+        embedList = datas2Embeds(event.concat(magazine, update, notic));
     }
     embedList.forEach((embed) => {
         sendEmbed(client, embed);
