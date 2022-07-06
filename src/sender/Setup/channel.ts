@@ -1,5 +1,5 @@
 import { Guild } from 'discord.js';
-import { getGuildInfo } from '../../utils/guild';
+import { botServerRepository, getGuildInfo } from '../../utils/guild';
 import { prefix } from '../../config';
 
 const setResposeChannel = async (
@@ -12,7 +12,7 @@ const setResposeChannel = async (
     const server = await getGuildInfo(guild);
     if (server === null) return 'failed to set respose Channel';
     server.channel = channelID;
-    await server.save();
+    await botServerRepository.save(server);
     return 'changed respose Channel to ' + channel.name;
 };
 const resetChannel = async (guild: Guild): Promise<string> => {
@@ -22,7 +22,7 @@ const resetChannel = async (guild: Guild): Promise<string> => {
     server.clan = undefined;
     server.role = undefined;
     server.prefix = prefix;
-    await server.save();
+    await botServerRepository.save(server);
     return 'success to reset';
 };
 
