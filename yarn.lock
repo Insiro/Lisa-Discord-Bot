@@ -2309,7 +2309,7 @@ __metadata:
     cross-env: ^7.0.2
     discord-command-parser: ^1.4.3
     discord.js: ^12.2.0
-    dotenv: ^8.2.0
+    dotenv: ^16.0.1
     eslint: ^8.19.0
     eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.2.1
@@ -2317,6 +2317,7 @@ __metadata:
     node-schedule: ^1.3.2
     nodemon: ^2.0.4
     pg: ^8.7.3
+    prettier: ^2.7.1
     reflect-metadata: ^0.1.13
     request: ^2.88.2
     request-promise-native: ^1.0.8
@@ -2690,17 +2691,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.0.0":
+"dotenv@npm:^16.0.0, dotenv@npm:^16.0.1":
   version: 16.0.1
   resolution: "dotenv@npm:16.0.1"
   checksum: f459ffce07b977b7f15d8cc4ee69cdff77d4dd8c5dc8c85d2d485ee84655352c2415f9dd09d42b5b5985ced3be186130871b34e2f3e2569ebc72fbc2e8096792
-  languageName: node
-  linkType: hard
-
-"dotenv@npm:^8.2.0":
-  version: 8.2.0
-  resolution: "dotenv@npm:8.2.0"
-  checksum: ad4c8e0df3e24b4811c8e93377d048a10a9b213dcd9f062483b4a2d3168f08f10ec9c618c23f5639060d230ccdb174c08761479e9baa29610aa978e1ee66df76
   languageName: node
   linkType: hard
 
@@ -6057,6 +6051,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "prettier@npm:2.7.1"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 55a4409182260866ab31284d929b3cb961e5fdb91fe0d2e099dac92eaecec890f36e524b4c19e6ceae839c99c6d7195817579cdffc8e2c80da0cb794463a748b
+  languageName: node
+  linkType: hard
+
 "pretty-format@npm:^25.2.1, pretty-format@npm:^25.5.0":
   version: 25.5.0
   resolution: "pretty-format@npm:25.5.0"
@@ -7552,11 +7555,11 @@ __metadata:
 
 "typescript@patch:typescript@^4.7.4#~builtin<compat/typescript>":
   version: 4.7.4
-  resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=bda367"
+  resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 96d3030cb01143570567cb4f3a616b10df65f658f0e74e853e77a089a6a954e35c800be7db8b9bfe9a1ae05d9c2897e281359f65e4caa1caf266368e1c4febd3
+  checksum: 9096d8f6c16cb80ef3bf96fcbbd055bf1c4a43bd14f3b7be45a9fbe7ada46ec977f604d5feed3263b4f2aa7d4c7477ce5f9cd87de0d6feedec69a983f3a4f93e
   languageName: node
   linkType: hard
 

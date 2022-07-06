@@ -12,8 +12,8 @@ const getClanLink = async (
     if (server === null || server.clan === null || server.clan === undefined)
         return null;
     const host = isNaver
-        ? 'http://cyphers.playnetwork.co.kr/'
-        : 'http://cyphers.nexon.com/';
+        ? 'https://cyphers.playnetwork.co.kr/'
+        : 'https://cyphers.nexon.com/';
     return host + 'cyphers/clan/' + server.clan;
 };
 
@@ -25,9 +25,9 @@ const getClanSite = async (
     return clan === null || clan === undefined
         ? 'not setted Clan Link yet'
         : new MessageEmbed()
-            .setTitle('클랜 홈페이지')
-            .setURL(clan)
-            .setDescription(isNaver ? 'naver publish' : 'nexon publish')
+              .setTitle('클랜 홈페이지')
+              .setURL(clan)
+              .setDescription(isNaver ? 'naver publish' : 'nexon publish');
 };
 
 const playingMember = async (guidID: string): Promise<string> => {

@@ -5,6 +5,9 @@ import { parseString } from 'xml2js';
 import { NewsDate } from './entity/NewsDate';
 import { BotServer } from './entity/BotServer';
 import { MessageEmbed, Client, TextChannel } from 'discord.js';
+import AppDataSource from './data-sources';
+
+const newsRepository = AppDataSource.getRepository(NewsDate);
 
 async function getData(url: string): Promise<Array<any>> {
     const re = await request.get(url);
@@ -21,14 +24,14 @@ async function sendEmbed(client: Client, embed: MessageEmbed): Promise<void> {
     const serverList = await BotServer.find();
     serverList.forEach((server) => {
         if (server.newsChannel !== null && server.newsChannel !== undefined) {
-            (client.channels.cache.get(server.newsChannel) as
-                | TextChannel
-                | undefined)?.send(embed);
+            (
+                client.channels.cache.get(server.newsChannel) as
+                    | TextChannel
+                    | undefined
+            )?.send(embed);
         }
     });
 }
-
-
 
 function pushEmbedList(
     parsedData: any,
@@ -52,43 +55,39 @@ function pushEmbedList(
 
 export async function worker(client: Client): Promise<void> {
     const event = await getData(
-        'http://cyphers.nexon.com/cyphers/article/event/rss'
+        'https://cyphers.nexon.com/cyphers/article/event/rss'
     );
     const magazine = await getData(
-        'http://cyphers.nexon.com/cyphers/article/magazine/rss'
+        'https://cyphers.nexon.com/cyphers/article/magazine/rss'
     );
     const update = await getData(
-        'http://cyphers.nexon.com/cyphers/article/update/rss'
+        'https://cyphers.nexon.com/cyphers/article/update/rss'
     );
-    const notic = await getData(
-        'http://cyphers.nexon.com/cyphers/article/notice/rss'
+    const notice = await getData(
+        'https://cyphers.nexon.com/cyphers/article/notice/rss'
     );
     const embedList: Array<MessageEmbed> = [];
-    let news = await NewsDate.findOne({ where: { id: 1 } });
+    let news = await newsRepository.findOne({ where: { id: 1 } });
     if (news !== undefined && news !== null) {
         pushEmbedList(event, news.event, embedList);
         pushEmbedList(magazine, news.magazine, embedList);
         pushEmbedList(update, news.update, embedList);
-        pushEmbedList(notic, news.notic, embedList);
-        news.event = event[0].pubDate[0];
-        news.magazine = magazine[0].pubDate[0];
-        news.update = update[0].pubDate[0];
-        news.notic = notic[0].pubDate[0];
+        pushEmbedList(notice, news.notic, embedList);
     } else {
         news = new NewsDate();
         news.id = 1;
         pushEmbedList(event, null, embedList);
         pushEmbedList(magazine, null, embedList);
         pushEmbedList(update, null, embedList);
-        pushEmbedList(notic, null, embedList);
-        news.event = new Date(event[0].pubDate);
-        news.magazine = new Date(magazine[0].pubDate);
-        news.update = new Date(update[0].pubDate);
-        news.notic = new Date(notic[0].pubDate);
+        pushEmbedList(notice, null, embedList);
     }
+    news.event = new Date(event[0].pubDate);
+    news.magazine = new Date(magazine[0].pubDate);
+    news.update = new Date(update[0].pubDate);
+    news.notic = new Date(notice[0].pubDate);
     embedList.forEach((embed) => {
         sendEmbed(client, embed);
     });
-    news.save();
+    await newsRepository.save(news);
     return;
 }

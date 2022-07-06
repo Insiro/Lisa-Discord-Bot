@@ -69,6 +69,6 @@ export const getMatchInfo = async (matchKey: string): Promise<string> => {
             losestr
         );
     } catch (error) {
-        return ParseError(error);
+        return ParseError(error as Error);
     }
 };

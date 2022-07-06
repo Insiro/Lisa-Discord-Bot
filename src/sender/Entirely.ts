@@ -15,7 +15,7 @@ const getPlayerID = async (playerName: string): Promise<string> => {
     try {
         return JSON.parse(await request.get(options)).rows[0].playerId;
     } catch (error) {
-        return ParseError(error);
+        return ParseError(error as Error);
     }
 };
 
@@ -86,7 +86,7 @@ export const getEntirely = async (args: Array<string>): Promise<string> => {
             json['nickname'] +
             '\t|\t' +
             json['tierName'] +
-            '\t|\t최대RP\t' +
+            '\t|\t최대 RP\t' +
             json['maxRatingPoint'] +
             '```\n```' +
             recordStr(json['records']) +
@@ -97,6 +97,6 @@ export const getEntirely = async (args: Array<string>): Promise<string> => {
             '```'
         );
     } catch (error) {
-        return ParseError(error);
+        return ParseError(error as Error);
     }
 };
