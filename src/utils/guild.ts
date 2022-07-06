@@ -1,29 +1,31 @@
 import { BotServer } from '../entity/BotServer';
+import AppDataSource from '../data-sources';
 import { Guild } from 'discord.js';
 import 'reflect-metadata';
 
+export const botServerRepository = AppDataSource.getRepository(BotServer);
 export const deleteGuild = async (guild: Guild): Promise<void> => {
-    const server: BotServer | undefined = await BotServer.findOne({
-        serverId: guild.id.toString(),
+    const server: BotServer | undefined = await botServerRepository.findOne({
+        where: { serverId: guild.id.toString() },
     });
-    server?.remove();
+    await botServerRepository.remove(server);
 };
 
-const registGuildStr = async (guildID: string): Promise<boolean> => {
+const registerGuildStr = async (guildID: string): Promise<boolean> => {
     try {
         const server = new BotServer();
         server.serverId = guildID;
-        await server.save();
+        await botServerRepository.insert(server);
         return true;
     } catch {
         return false;
     }
 };
 
-export const registGuild = async (guild: Guild): Promise<void> => {
-    const result = await registGuildStr(guild.id.toString());
+export const registerGuild = async (guild: Guild): Promise<void> => {
+    const result = await registerGuildStr(guild.id.toString());
     if (result === false) {
-        guild.systemChannel?.send('faild to regist server');
+        guild.systemChannel?.send('failed to register server');
         guild.leave();
     }
 };
@@ -32,11 +34,11 @@ export const getGuildInfoStr = async (
     guildID: string
 ): Promise<BotServer | null> => {
     if (guildID === undefined || guildID === '') return null;
-    let server: BotServer | undefined = await BotServer.findOne({
-        serverId: guildID,
+    let server: BotServer | null = await botServerRepository.findOne({
+        where: { serverId: guildID },
     });
-    if (server === undefined) {
-        registGuildStr(guildID);
+    if (server === null) {
+        registerGuildStr(guildID);
         server = new BotServer();
     }
     server.serverId = guildID;

@@ -1,35 +1,21 @@
 module.exports = {
-    env: {
-        browser: false,
-        node: true,
-    },
-    
-    extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/eslint-recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:@typescript-eslint/recommended-requiring-type-checking',
-        'plugin:jest/recommended',
-        'plugin:jest/style',
-    ],
-    parser: '@typescript-eslint/parser',
+    parser: "@typescript-eslint/parser",
     parserOptions: {
-        project: './tsconfig.json',
+        project: 'tsconfig.json',
+        tsconfigRootDir : __dirname,
+        sourceType: 'module',
     },
-    plugins: ['@typescript-eslint', 'jest'],
-    root: true,
-    rules: {
-        indent: [
-            'error',
-            4,
-            {
-                MemberExpression: 1,
-                SwitchCase: 1,
-            },
-        ],
-        'no-await-in-loop': 'error',
-        'no-return-await': 'error',
-        'no-array-constructor': 'error',
-        eqeqeq: 'error',
+    plugins: ['@typescript-eslint/eslint-plugin'],
+    extends: [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    root:true,
+    env: {
+        jest: true,
+        node: true
     },
-};
+    ignorePatterns: ['.eslintrc.js'],
+    "rules": {
+    }
+}

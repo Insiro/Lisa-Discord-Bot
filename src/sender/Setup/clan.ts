@@ -1,4 +1,4 @@
-import { getGuildInfo } from '../../utils/guild';
+import { botServerRepository, getGuildInfo } from '../../utils/guild';
 import { Guild } from 'discord.js';
 
 export const setClan = async (
@@ -8,6 +8,6 @@ export const setClan = async (
     const server = await getGuildInfo(guild);
     if (server === null) return 'failed to set Clan Link';
     server.clan = newClanLink;
-    server.save();
+    await botServerRepository.save(server);
     return 'changed clan Link to ' + newClanLink;
 };
