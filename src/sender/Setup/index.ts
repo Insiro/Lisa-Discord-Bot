@@ -1,24 +1,17 @@
 import { Message } from 'discord.js';
 import { setRole } from './role';
 import { setClan } from './clan';
-import { setSubscribeChannel} from './news';
-import { setPrefix } from './prefix';
+import { setSubscribeChannel } from './news';
 import { BotServer } from '../../entity/BotServer';
 import { setChannel } from './channel';
 import { getGuildInfo } from '../../utils/guild';
 const hasPermission = async (msg: Message): Promise<boolean> => {
     const info: BotServer | null = await getGuildInfo(msg.guild);
-    if (
-        info !== null &&
-        msg.member !== undefined &&
-        msg.member !== null &&
-        (msg.member.hasPermission('ADMINISTRATOR') ||
-            (info.role !== null &&
-                info.role !== undefined &&
-                msg.member.roles.cache.has(info.role)))
-    )
-        return true;
-    return false;
+    if (info == null) return false;
+    if (msg.member === undefined || msg.member === null) return false;
+    if (msg.member.hasPermission('ADMINISTRATOR')) return true;
+    if (info.role === null || info.role === undefined) return false;
+    return msg.member.roles.cache.has(info.role)
 };
 
 export const setup = async (
@@ -26,7 +19,7 @@ export const setup = async (
     args: Array<string>
 ): Promise<string> => {
     if (msg.guild === null) return '서버에서만 가능합니다';
-    let outStr = "haven't permision";
+    let outStr = "haven't permission";
     if (!(await hasPermission(msg))) return "haven't permission";
     switch (args[0]) {
         case '채널':
