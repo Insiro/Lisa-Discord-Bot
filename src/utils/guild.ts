@@ -11,20 +11,20 @@ export const deleteGuild = async (guild: Guild): Promise<void> => {
     await botServerRepository.remove(server);
 };
 
-const registerGuildStr = async (guildID: string): Promise<boolean> => {
+const registerGuildStr = async (guildID: string): Promise<BotServer | null> => {
     try {
         const server = new BotServer();
         server.serverId = guildID;
         await botServerRepository.insert(server);
-        return true;
+        return server;
     } catch {
-        return false;
+        return null;
     }
 };
 
 export const registerGuild = async (guild: Guild): Promise<void> => {
     const result = await registerGuildStr(guild.id.toString());
-    if (result === false) {
+    if (result === null) {
         guild.systemChannel?.send('failed to register server');
         guild.leave();
     }
@@ -34,13 +34,10 @@ export const getGuildInfoStr = async (
     guildID: string
 ): Promise<BotServer | null> => {
     if (guildID === undefined || guildID === '') return null;
-    let server: BotServer | null = await botServerRepository.findOne({
+    const server: BotServer | null = await botServerRepository.findOne({
         where: { serverId: guildID },
     });
-    if (server === null) {
-        registerGuildStr(guildID);
-        server = new BotServer();
-    }
+    if (server === null) return registerGuildStr(guildID);
     server.serverId = guildID;
     return server;
 };
