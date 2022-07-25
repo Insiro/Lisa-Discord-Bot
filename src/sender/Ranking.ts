@@ -1,13 +1,23 @@
+import { CommandInteraction } from 'discord.js';
+import * as request from 'request-promise-native';
 import { CyphersApiKey } from '../config';
 import { CyApiLink } from '../utils/values';
-import * as request from 'request-promise-native';
+import {
+    SlashCommandBuilder,
+    SlashCommandIntegerOption,
+} from '@discordjs/builders';
 
-export const getRanking = async (offset: string): Promise<string> => {
+export const getRanking = async (
+    interaction: CommandInteraction
+): Promise<string> => {
+    let offset = interaction.options.getInteger('offset', false);
+    offset = !offset ? 0 : offset - 1;
+    console.log(offset)
     const Options = {
         uri: CyApiLink + 'ranking/ratingpoint',
         qs: {
             apikey: CyphersApiKey,
-            offset: parseInt(offset) - 1,
+            offset: offset,
         },
     };
     const list = JSON.parse(await request.get(Options))['rows'];
@@ -25,3 +35,12 @@ export const getRanking = async (offset: string): Promise<string> => {
     outString += '```';
     return outString;
 };
+export const ranking_command = new SlashCommandBuilder()
+    .setName('랭킹')
+    .setDescription('offset 부터 상위 10명을 가져옵니다')
+    .addIntegerOption(
+        new SlashCommandIntegerOption()
+            .setName('offset')
+            .setDescription('시작 순위')
+            .setRequired(false)
+    );

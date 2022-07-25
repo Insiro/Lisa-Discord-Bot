@@ -1,11 +1,8 @@
-import {
-    CommandInteraction,
-    MessageEmbed,
-} from 'discord.js';
+import { CommandInteraction, MessageEmbed } from 'discord.js';
 import { getRecords, record_command } from './Record';
 import { getMatchInfo } from './Match';
 import { help } from './Help';
-import { getRanking } from './Ranking';
+import { getRanking, ranking_command } from './Ranking';
 import { setup } from './Setup';
 import { clan_command, clanController } from './Clan';
 import { BotServer } from '../entity/BotServer';
@@ -13,15 +10,15 @@ import { getGuildInfo } from '../utils/guild';
 
 const normalCommander = async (
     interaction: CommandInteraction
-): Promise<string | MessageEmbed | null> => {
-    const info: BotServer | null = await getGuildInfo(interaction.guild);
-    if (
-        info !== null &&
-        info.channel !== null &&
-        info.channel !== undefined &&
-        interaction.channelId !== info.channel
-    )
-        return;
+): Promise<string | MessageEmbed> => {
+    // const info: BotServer | null = await getGuildInfo(interaction.guild);
+    // if (
+    //     info !== null &&
+    //     info.channel !== null &&
+    //     info.channel !== undefined &&
+    //     interaction.channelId !== info.channel
+    // )
+    //     return;
 
     let sendString: string | MessageEmbed;
     switch (interaction.commandName) {
@@ -38,7 +35,7 @@ const normalCommander = async (
             break;
         case '랭킹':
         case 'ranking':
-            // sendString = await getRanking(interaction);
+            sendString = await getRanking(interaction);
             break;
         default:
             return;
@@ -49,7 +46,8 @@ const normalCommander = async (
 export const sender = async (
     interaction: CommandInteraction
 ): Promise<void> => {
-    let sendString: string | MessageEmbed | null;
+    let sendString: string | MessageEmbed;
+    console.log(interaction.commandName)
     switch (interaction.commandName) {
         case '설정':
             // sendString = await setup(interaction.options);
@@ -62,10 +60,8 @@ export const sender = async (
         default:
             sendString = await normalCommander(interaction);
     }
-    const msg =
-        sendString instanceof MessageEmbed
-            ? { embeds: [sendString] }
-            : sendString;
-    interaction.reply(msg);
+    if (sendString instanceof MessageEmbed)
+        interaction.reply({ embeds: [sendString] });
+    else interaction.reply(sendString);
 };
-export const commands = [clan_command, record_command];
+export const commands = [clan_command, record_command, ranking_command];
