@@ -1,7 +1,11 @@
+import * as request from 'request-promise-native';
+import {
+    SlashCommandBuilder,
+    SlashCommandStringOption,
+} from '@discordjs/builders';
+import { CommandInteraction } from 'discord.js';
 import { CyphersApiKey } from '../config';
 import { CyApiLink, ParseError, parseErrorMsg } from '../utils/values';
-import * as request from 'request-promise-native';
-
 const apiLink: string = CyApiLink + 'players/';
 
 const getPlayerID = async (playerName: string): Promise<string> => {
@@ -58,18 +62,19 @@ const matchStr = (matchJson: any): string => {
     return result;
 };
 
-export const getEntirely = async (args: Array<string>): Promise<string> => {
+export const getRecords = async (
+    interaction: CommandInteraction
+): Promise<string> => {
+    const options = interaction.options;
     let gameTypeId = 'rating';
     let gameType = '공식';
-    if (args.length === 0) return 'wrong args';
-    else if (
-        args.length === 2 &&
-        (args[1] === 'normal' || args[1] === '일반')
-    ) {
-        gameType = args[1];
+    const game_mode = options.getString('gamemode');
+    if (game_mode === 'normal' || game_mode === '일반') {
+        gameType = '일반';
         gameTypeId = 'normal';
     }
-    const playerID = await getPlayerID(args[0]);
+    const user_name = options.getString('username');
+    const playerID = await getPlayerID(user_name);
     if (playerID === parseErrorMsg) return parseErrorMsg;
     try {
         const options = {
@@ -100,3 +105,25 @@ export const getEntirely = async (args: Array<string>): Promise<string> => {
         return ParseError(error as Error);
     }
 };
+
+export const record_command = new SlashCommandBuilder()
+    .setDescription('전적')
+    .setName('전적')
+    .setNameLocalizations({ ko: '전적' })
+    .addStringOption(
+        new SlashCommandStringOption()
+            .setName('username')
+            .setNameLocalizations({ ko: '유저이름' })
+            .setDescription('유저이름')
+            .setRequired(true)
+    )
+    .addStringOption(
+        new SlashCommandStringOption()
+            .setName('gamemode')
+            .setDescription('게임모드 (기본값 공식)')
+            .setRequired(false)
+            .addChoices(
+                { name: '공식', value: 'rating' },
+                { name: '일반', value: 'normal' }
+            )
+    );

@@ -2,7 +2,7 @@ import {
     CommandInteraction,
     MessageEmbed,
 } from 'discord.js';
-import { getEntirely } from './Entirely';
+import { getRecords, record_command } from './Record';
 import { getMatchInfo } from './Match';
 import { help } from './Help';
 import { getRanking } from './Ranking';
@@ -27,7 +27,7 @@ const normalCommander = async (
     switch (interaction.commandName) {
         case '전적':
         case 'record':
-            // sendString = await getEntirely(parsed.arguments);
+            sendString = await getRecords(interaction);
             break;
         case '매치':
         case 'match':
@@ -68,4 +68,4 @@ export const sender = async (
             : sendString;
     interaction.reply(msg);
 };
-export const commands = [clan_command];
+export const commands = [clan_command, record_command];
