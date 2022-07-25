@@ -1,6 +1,5 @@
-import * as request from 'request-promise-native';
-import * as cheerio from 'cheerio';
-import { parseString } from 'xml2js';
+import axios from 'axios';
+import { parseStringPromise } from 'xml2js';
 
 import { NewsDate } from './entity/NewsDate';
 import { BotServer } from './entity/BotServer';
@@ -10,31 +9,27 @@ import AppDataSource from './data-sources';
 const newsRepository = AppDataSource.getRepository(NewsDate);
 
 async function getData(url: string): Promise<Array<any>> {
-    const re = await request.get(url);
-    let datas = '';
-    parseString(
-        cheerio.load(re, { xmlMode: true }).xml(),
-        { mergeAttrs: true },
-        (err, result) => (datas = JSON.stringify(result))
-    );
-    return JSON.parse(datas).rss.channel[0].item;
-}
+    const re = await axios.get(url);
+    const result= await parseStringPromise(re.data, {
+        mergeAttrs: true,
+    });
 
+    return result.rss.channel[0].item;
+}
 async function sendEmbed(client: Client, embed: MessageEmbed): Promise<void> {
     const serverList = await BotServer.find();
     serverList.forEach((server) => {
-        if (server.newsChannel !== null && server.newsChannel !== undefined) {
-            (
-                client.channels.cache.get(server.newsChannel) as
-                    | TextChannel
-                    | undefined
-            )?.send({ embeds:[embed] });
+        if (!server.newsChannel) {
+            const channel = client.channels.cache.get(
+                server.newsChannel
+            ) as TextChannel;
+            if (channel) channel.send({ embeds: [embed] });
         }
     });
 }
 
 function pushEmbedList(
-    parsedData: any,
+    parsedData: any[],
     compareDate: Date | null,
     embedList: Array<MessageEmbed>
 ): void {
@@ -81,10 +76,10 @@ export async function worker(client: Client): Promise<void> {
         pushEmbedList(update, null, embedList);
         pushEmbedList(notice, null, embedList);
     }
-    news.event = new Date(event[0].pubDate);
-    news.magazine = new Date(magazine[0].pubDate);
-    news.update = new Date(update[0].pubDate);
-    news.notic = new Date(notice[0].pubDate);
+    news.event = new Date(event[0].pubDate[0]);
+    news.magazine = new Date(magazine[0].pubDate[0]);
+    news.update = new Date(update[0].pubDate[0]);
+    news.notic = new Date(notice[0].pubDate[0]);
     embedList.forEach((embed) => {
         sendEmbed(client, embed);
     });

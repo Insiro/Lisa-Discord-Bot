@@ -1,4 +1,4 @@
-import * as request from 'request-promise-native';
+import axios from 'axios';
 import {
     SlashCommandBuilder,
     SlashCommandStringOption,
@@ -9,15 +9,14 @@ import { CyApiLink, ParseError, parseErrorMsg } from '../utils/values';
 const apiLink: string = CyApiLink + 'players/';
 
 const getPlayerID = async (playerName: string): Promise<string> => {
-    const options = {
-        uri: apiLink,
-        qs: {
-            apikey: CyphersApiKey,
-            nickname: playerName,
-        },
-    };
     try {
-        return JSON.parse(await request.get(options)).rows[0].playerId;
+        const result = await axios.get(apiLink, {
+            params: {
+                apikey: CyphersApiKey,
+                nickname: playerName,
+            },
+        });
+        return result.data.rows[0].playerId;
     } catch (error) {
         return ParseError(error as Error);
     }
@@ -77,15 +76,13 @@ export const getRecords = async (
     const playerID = await getPlayerID(user_name);
     if (playerID === parseErrorMsg) return parseErrorMsg;
     try {
-        const options = {
-            uri: apiLink + playerID + '/matches',
-            qs: {
+        const result = await axios.get(apiLink + playerID + '/matches', {
+            params: {
                 gameTypeId: gameTypeId,
                 apikey: CyphersApiKey,
             },
-        };
-        const result: string = await request.get(options);
-        const json = JSON.parse(result);
+        });
+        const json = result.data;
         return (
             '```' +
             json['nickname'] +

@@ -46,6 +46,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/xml2js", "npm:0.4.11"],\
             ["@typescript-eslint/eslint-plugin", "virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:5.30.7"],\
             ["@typescript-eslint/parser", "virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:5.30.7"],\
+            ["axios", "npm:0.27.2"],\
             ["cheerio", "npm:1.0.0-rc.12"],\
             ["class-validator", "npm:0.13.2"],\
             ["cross-env", "npm:7.0.3"],\
@@ -2336,6 +2337,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["axios", [\
+        ["npm:0.27.2", {\
+          "packageLocation": "./.yarn/cache/axios-npm-0.27.2-dbe3a48aea-38cb754046.zip/node_modules/axios/",\
+          "packageDependencies": [\
+            ["axios", "npm:0.27.2"],\
+            ["follow-redirects", "virtual:dbe3a48aea1dd5649e16abaf23d4ae05582d2149e16141955113766a0f84f681baf358c77ddccfc82eb23e4ccc66c6c912df62a9c01f2a83f1842bf86cc297b1#npm:1.15.1"],\
+            ["form-data", "npm:4.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["babel-jest", [\
         ["npm:28.1.3", {\
           "packageLocation": "./.yarn/cache/babel-jest-npm-28.1.3-3bb56d0efd-57ccd2296e.zip/node_modules/babel-jest/",\
@@ -3043,6 +3055,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/xml2js", "npm:0.4.11"],\
             ["@typescript-eslint/eslint-plugin", "virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:5.30.7"],\
             ["@typescript-eslint/parser", "virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:5.30.7"],\
+            ["axios", "npm:0.27.2"],\
             ["cheerio", "npm:1.0.0-rc.12"],\
             ["class-validator", "npm:0.13.2"],\
             ["cross-env", "npm:7.0.3"],\
@@ -3890,6 +3903,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/flatted-npm-3.2.6-a309e17eb3-33b87aa88d.zip/node_modules/flatted/",\
           "packageDependencies": [\
             ["flatted", "npm:3.2.6"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["follow-redirects", [\
+        ["npm:1.15.1", {\
+          "packageLocation": "./.yarn/cache/follow-redirects-npm-1.15.1-6b191885cd-6aa4e3e3cd.zip/node_modules/follow-redirects/",\
+          "packageDependencies": [\
+            ["follow-redirects", "npm:1.15.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:dbe3a48aea1dd5649e16abaf23d4ae05582d2149e16141955113766a0f84f681baf358c77ddccfc82eb23e4ccc66c6c912df62a9c01f2a83f1842bf86cc297b1#npm:1.15.1", {\
+          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-659894389a/0/cache/follow-redirects-npm-1.15.1-6b191885cd-6aa4e3e3cd.zip/node_modules/follow-redirects/",\
+          "packageDependencies": [\
+            ["follow-redirects", "virtual:dbe3a48aea1dd5649e16abaf23d4ae05582d2149e16141955113766a0f84f681baf358c77ddccfc82eb23e4ccc66c6c912df62a9c01f2a83f1842bf86cc297b1#npm:1.15.1"],\
+            ["@types/debug", null],\
+            ["debug", null]\
+          ],\
+          "packagePeers": [\
+            "@types/debug",\
+            "debug"\
           ],\
           "linkType": "HARD"\
         }]\

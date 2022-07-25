@@ -1,10 +1,10 @@
+import axios from 'axios';
 import { CommandInteraction, MessageEmbed } from 'discord.js';
 import {
     SlashCommandBuilder,
     SlashCommandStringOption,
     SlashCommandSubcommandBuilder,
 } from '@discordjs/builders';
-import * as request from 'request-promise-native';
 import * as cheerio from 'cheerio';
 
 import { BotServer } from '../entity/BotServer';
@@ -58,8 +58,8 @@ const playingMember = async (guidID: string): Promise<string> => {
     const clanUri = await getClanLink(guidID, false);
     if (clanUri === null || clanUri === undefined)
         return 'not set Clan Link yet';
-    const re = await request.get(clanUri);
-    const html = cheerio.load(re);
+    const re = await axios.get(clanUri);
+    const html = cheerio.load(re.data);
     const memberList = html('.member_list > p')
         .text()
         .split(' ')

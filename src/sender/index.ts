@@ -71,5 +71,5 @@ export const commands = [
     match_command,
     help_command,
     how_command,
-    setup_command
+    setup_command,
 ];
