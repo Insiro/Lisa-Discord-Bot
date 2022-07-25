@@ -1,7 +1,7 @@
 import { CommandInteraction, MessageEmbed } from 'discord.js';
 import { getRecords, record_command } from './Record';
 import { getMatchInfo, match_command } from './Match';
-import { help } from './Help';
+import { help, help_command, how_command } from './Help';
 import { getRanking, ranking_command } from './Ranking';
 import { setup } from './Setup';
 import { clanController, clan_command } from './Clan';
@@ -55,7 +55,7 @@ export const sender = async (
         case 'help':
         case '도움말':
         case '명령어':
-            // sendString = help(parsed.arguments);
+            sendString = help(interaction);
             break;
         default:
             sendString = await normalCommander(interaction);
@@ -70,4 +70,6 @@ export const commands = [
     record_command,
     ranking_command,
     match_command,
+    help_command,
+    how_command
 ];
