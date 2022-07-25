@@ -16,7 +16,6 @@ async function main(): Promise<void> {
     client.on('interactionCreate', async (interaction) => {
         if (interaction.isCommand()) sender(interaction);
     });
-    // client.on('message', (msg): void => void sender(msg));
     client.on(
         'guildCreate',
         (guild): void => void guildInit.registerGuild(guild)
@@ -26,19 +25,19 @@ async function main(): Promise<void> {
         (guild): void => void guildInit.deleteGuild(guild)
     );
     await AppDataSource.initialize();
-    // schedule.scheduleJob('0 30 * * * *', () => {
-    //     void worker(client);
-    // });
-    // schedule.scheduleJob('0 00 * * * *', () => {
-    //     void worker(client);
-    // });
+    schedule.scheduleJob('0 30 * * * *', () => {
+        void worker(client);
+    });
+    schedule.scheduleJob('0 00 * * * *', () => {
+        void worker(client);
+    });
     const rest = new REST({ version: '10' }).setToken(DiscordApiKey);
     await rest.put(Routes.applicationCommands(DiscordAppId), {
         body: commands.map((command) => command.toJSON()),
     });
     await client.login(DiscordApiKey);
 
-    client.user.setActivity('/help 테스팅', { type: 'LISTENING' });
+    client.user.setActivity('/help', { type: 'LISTENING' });
 
     console.log('start CyphersDiscord Bot!!');
 }

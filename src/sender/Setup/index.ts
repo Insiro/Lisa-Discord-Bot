@@ -1,19 +1,14 @@
 import { CommandInteraction, GuildMember, Interaction } from 'discord.js';
-import {
-    SlashCommandBooleanOption,
-    SlashCommandBuilder,
-    SlashCommandSubcommandBuilder,
-} from '@discordjs/builders';
+import { SlashCommandBuilder } from '@discordjs/builders';
 
-import { setRole } from './role';
-import { setClan } from './clan';
-import { setSubscribeChannel } from './news';
-import { BotServer } from '../../entity/BotServer';
+import { setRole, setup_role } from './role';
+import { setClan, setup_clan } from './clan';
+import { setSubscribeChannel, setup_news } from './news';
 import { setChannel, setup_channel } from './channel';
 import { resetServer, reset_command } from './reset';
 
-import { botServerRepository, getGuildInfo } from '../../utils/guild';
-
+import { BotServer } from '../../entity/BotServer';
+import { getGuildInfo } from '../../utils/guild';
 
 const hasPermission = async (interaction: Interaction): Promise<boolean> => {
     const info: BotServer | null = await getGuildInfo(interaction.guild);
@@ -28,21 +23,20 @@ export const setup = async (
     interaction: CommandInteraction
 ): Promise<string> => {
     if (!interaction.inGuild()) return '서버에서만 가능합니다';
-    const guild = interaction.guild;
     if (!(await hasPermission(interaction))) return "haven't permission";
     let outStr: string;
     switch (interaction.options.getSubcommand()) {
         case '채널':
             outStr = await setChannel(interaction);
             break;
-        case '클랜주소':
-            // outStr = await setClan(interaction);
+        case '클랜':
+            outStr = await setClan(interaction);
             break;
         case '역할':
-            // outStr = await setRole(interaction);
+            outStr = await setRole(interaction);
             break;
         case '구독':
-            // outStr = await setSubscribeChannel(interaction);
+            outStr = await setSubscribeChannel(interaction);
             break;
         case '초기화':
             outStr = await resetServer(interaction);
@@ -57,4 +51,7 @@ export const setup_command = new SlashCommandBuilder()
     .setName('설정')
     .setDescription('설정')
     .addSubcommand(setup_channel)
-    .addSubcommand(reset_command);
+    .addSubcommand(setup_role)
+    .addSubcommand(setup_clan)
+    .addSubcommand(reset_command)
+    .addSubcommand(setup_news);
