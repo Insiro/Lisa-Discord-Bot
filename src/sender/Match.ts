@@ -1,3 +1,8 @@
+import {
+    SlashCommandBuilder,
+    SlashCommandStringOption,
+} from '@discordjs/builders';
+import { CommandInteraction } from 'discord.js';
 import { CyphersApiKey } from '../config';
 import { ParseError, CyApiLink } from '../utils/values';
 import * as request from 'request-promise-native';
@@ -34,7 +39,8 @@ const getPlayerStr = (userJson: any): string => {
     return playerString;
 };
 
-export const getMatchInfo = async (matchKey: string): Promise<string> => {
+export const getMatchInfo = async (interaction:CommandInteraction): Promise<string> => {
+    const matchKey = interaction.options.getString("matching_id")
     const options = {
         uri: CyApiLink + '/matches/' + matchKey,
         qs: {
@@ -72,3 +78,12 @@ export const getMatchInfo = async (matchKey: string): Promise<string> => {
         return ParseError(error as Error);
     }
 };
+export const match_command = new SlashCommandBuilder()
+    .setName('매칭')
+    .setDescription('매칭정보를 조회합니다.')
+    .addStringOption(
+        new SlashCommandStringOption()
+            .setName('matching_id')
+            .setDescription('해당 메칭의 id')
+            .setRequired(true)
+    );
