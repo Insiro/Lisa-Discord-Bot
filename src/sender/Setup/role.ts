@@ -13,7 +13,7 @@ export const setRole = async (
     if (server === null) return 'failed to set Clan Link';
     const options = interaction.options;
     if (options.getBoolean('reset')) {
-        server.role = undefined;
+        server.role = null;
         await botServerRepository.save(server);
         return '역할설정 초기화 되었습니다.';
     }

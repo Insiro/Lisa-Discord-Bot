@@ -26,7 +26,7 @@ const resetChannel = async (guild: Guild): Promise<string> => {
     const server = await getGuildInfo(guild);
     if (server === null)
         return 'failed to set response Channel\nPlz rejoin Bot';
-    server.channel = undefined;
+    server.channel = null;
     await botServerRepository.save(server);
     return 'success to reset';
 };

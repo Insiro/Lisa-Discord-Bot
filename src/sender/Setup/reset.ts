@@ -8,10 +8,10 @@ export const resetServer = async (
     if (!interaction.options.getBoolean('check'))
         return '초기화를 취소하였습니다';
     const server = await getGuildInfo(interaction.guild);
-    server.channel = undefined;
-    server.role = undefined;
-    server.clan = undefined;
-    server.newsChannel = undefined;
+    server.channel = null;
+    server.role = null;
+    server.clan = null;
+    server.newsChannel = null;
     await botServerRepository.save(server);
     return 'success to reset';
 };
