@@ -16,6 +16,4 @@ module.exports = {
         node: true
     },
     ignorePatterns: ['.eslintrc.js', "*.env"],
-    "rules": {
-    }
 }
