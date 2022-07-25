@@ -8,9 +8,31 @@ import AppDataSource from './data-sources';
 
 const newsRepository = AppDataSource.getRepository(NewsDate);
 
-async function getData(url: string): Promise<Array<any>> {
+interface CyphersRssItem {
+    title: [string];
+    link: [string];
+    description: [string];
+    category: [string];
+    pubDate: [string];
+    guid: [string];
+}
+interface CyphersRss {
+    rss: {
+        version: [string];
+        channel: [
+            {
+                title: string;
+                link: string;
+                description: string;
+                item: [CyphersRssItem];
+            }
+        ];
+    };
+}
+
+async function getData(url: string): Promise<Array<CyphersRssItem>> {
     const re = await axios.get(url);
-    const result= await parseStringPromise(re.data, {
+    const result: CyphersRss = await parseStringPromise(re.data, {
         mergeAttrs: true,
     });
 
@@ -29,7 +51,7 @@ async function sendEmbed(client: Client, embed: MessageEmbed): Promise<void> {
 }
 
 function pushEmbedList(
-    parsedData: any[],
+    parsedData: CyphersRssItem[],
     compareDate: Date | null,
     embedList: Array<MessageEmbed>
 ): void {
