@@ -28,7 +28,7 @@ async function sendEmbed(client: Client, embed: MessageEmbed): Promise<void> {
                 client.channels.cache.get(server.newsChannel) as
                     | TextChannel
                     | undefined
-            )?.send(embed);
+            )?.send({ embeds:[embed] });
         }
     });
 }

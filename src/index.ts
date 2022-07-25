@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Client, Intents } from 'discord.js';
 import { REST } from '@discordjs/rest';
 import { DiscordApiKey, DiscordAppId } from './config';
@@ -9,7 +10,6 @@ import { commands, sender } from './sender';
 import { worker } from './newsUpdater';
 
 import { Routes } from 'discord-api-types/v10';
-
 
 async function main(): Promise<void> {
     const client = new Client({ intents: [Intents.FLAGS.GUILDS] });

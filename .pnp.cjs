@@ -68,7 +68,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", "virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:10.8.2"],\
             ["typeorm", "virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:0.3.7"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"],\
-            ["ws", "virtual:f93190cd66e7db48d4befca4103220c586e3868f37c96637f881356d80ee864fac4dbc4ee6d3433ba27338667b5a12dd57483214b2505e3564ace14eeb5e44e4#npm:8.8.0"],\
+            ["ws", "virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:8.8.1"],\
             ["xml2js", "npm:0.4.23"]\
           ],\
           "linkType": "SOFT"\
@@ -3029,7 +3029,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", "virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:10.8.2"],\
             ["typeorm", "virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:0.3.7"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"],\
-            ["ws", "virtual:f93190cd66e7db48d4befca4103220c586e3868f37c96637f881356d80ee864fac4dbc4ee6d3433ba27338667b5a12dd57483214b2505e3564ace14eeb5e44e4#npm:8.8.0"],\
+            ["ws", "virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:8.8.1"],\
             ["xml2js", "npm:0.4.23"]\
           ],\
           "linkType": "SOFT"\
@@ -7683,6 +7683,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ws", "npm:8.8.0"]\
           ],\
           "linkType": "SOFT"\
+        }],\
+        ["npm:8.8.1", {\
+          "packageLocation": "./.yarn/cache/ws-npm-8.8.1-955e8c9f58-2152cf862c.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "npm:8.8.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:8.8.1", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-d31f5c8eba/0/cache/ws-npm-8.8.1-955e8c9f58-2152cf862c.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:8.8.1"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
         }],\
         ["virtual:f93190cd66e7db48d4befca4103220c586e3868f37c96637f881356d80ee864fac4dbc4ee6d3433ba27338667b5a12dd57483214b2505e3564ace14eeb5e44e4#npm:8.8.0", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-acc5e99e25/0/cache/ws-npm-8.8.0-89e1c83090-6ceed1ca1c.zip/node_modules/ws/",\
