@@ -1,42 +1,60 @@
-import { Message } from 'discord.js';
+import { CommandInteraction, GuildMember, Interaction } from 'discord.js';
+import {
+    SlashCommandBooleanOption,
+    SlashCommandBuilder,
+    SlashCommandSubcommandBuilder,
+} from '@discordjs/builders';
+
 import { setRole } from './role';
 import { setClan } from './clan';
 import { setSubscribeChannel } from './news';
 import { BotServer } from '../../entity/BotServer';
-import { setChannel } from './channel';
-import { getGuildInfo } from '../../utils/guild';
-const hasPermission = async (msg: Message): Promise<boolean> => {
-    const info: BotServer | null = await getGuildInfo(msg.guild);
+import { setChannel, setup_channel } from './channel';
+import { resetServer, reset_command } from './reset';
+
+import { botServerRepository, getGuildInfo } from '../../utils/guild';
+
+
+const hasPermission = async (interaction: Interaction): Promise<boolean> => {
+    const info: BotServer | null = await getGuildInfo(interaction.guild);
     if (info == null) return false;
-    if (msg.member === undefined || msg.member === null) return false;
-    if (msg.member.hasPermission('ADMINISTRATOR')) return true;
+    const member = interaction.member as GuildMember;
+    if (member.permissions.has('ADMINISTRATOR')) return true;
     if (info.role === null || info.role === undefined) return false;
-    return msg.member.roles.cache.has(info.role)
+    return member.roles.cache.has(info.role);
 };
 
 export const setup = async (
-    msg: Message,
-    args: Array<string>
+    interaction: CommandInteraction
 ): Promise<string> => {
-    if (msg.guild === null) return '서버에서만 가능합니다';
-    let outStr = "haven't permission";
-    if (!(await hasPermission(msg))) return "haven't permission";
-    switch (args[0]) {
+    if (!interaction.inGuild()) return '서버에서만 가능합니다';
+    const guild = interaction.guild;
+    if (!(await hasPermission(interaction))) return "haven't permission";
+    let outStr: string;
+    switch (interaction.options.getSubcommand()) {
         case '채널':
-            outStr = await setChannel(msg.guild, args[1]);
+            outStr = await setChannel(interaction);
             break;
         case '클랜주소':
-            outStr = await setClan(msg.guild, args[1]);
+            // outStr = await setClan(interaction);
             break;
         case '역할':
-            outStr = await setRole(msg.guild, args.slice(1));
+            // outStr = await setRole(interaction);
             break;
         case '구독':
-            outStr = await setSubscribeChannel(msg.guild, args[1]);
+            // outStr = await setSubscribeChannel(interaction);
+            break;
+        case '초기화':
+            outStr = await resetServer(interaction);
             break;
         default:
             outStr = 'Wrong Command';
     }
     return outStr;
 };
-export default setup;
+
+export const setup_command = new SlashCommandBuilder()
+    .setName('설정')
+    .setDescription('설정')
+    .addSubcommand(setup_channel)
+    .addSubcommand(reset_command);

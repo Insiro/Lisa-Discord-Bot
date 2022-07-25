@@ -3,7 +3,7 @@ import { getRecords, record_command } from './Record';
 import { getMatchInfo, match_command } from './Match';
 import { help, help_command, how_command } from './Help';
 import { getRanking, ranking_command } from './Ranking';
-import { setup } from './Setup';
+import { setup, setup_command } from './Setup';
 import { clanController, clan_command } from './Clan';
 import { BotServer } from '../entity/BotServer';
 import { getGuildInfo } from '../utils/guild';
@@ -50,10 +50,9 @@ export const sender = async (
     let sendString: string | MessageEmbed | null;
     switch (interaction.commandName) {
         case '설정':
-            // sendString = await setup(interaction.options);
+            sendString = await setup(interaction);
             break;
         case 'help':
-        case '도움말':
         case '명령어':
             sendString = help(interaction);
             break;
@@ -71,5 +70,6 @@ export const commands = [
     ranking_command,
     match_command,
     help_command,
-    how_command
+    how_command,
+    setup_command
 ];
