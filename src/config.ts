@@ -3,6 +3,7 @@ import { DataSourceOptions } from 'typeorm';
 import { BotServer } from './entity/BotServer';
 import { NewsDate } from './entity/NewsDate';
 import * as fs from 'fs';
+import * as process from 'process';
 
 const fileName = 'src/bot.env'
 if (fs.existsSync(fileName))
