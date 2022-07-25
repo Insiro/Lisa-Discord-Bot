@@ -1,6 +1,11 @@
+import axios from 'axios';
+import {
+    SlashCommandBuilder,
+    SlashCommandStringOption,
+} from '@discordjs/builders';
+import { CommandInteraction } from 'discord.js';
 import { CyphersApiKey } from '../config';
 import { ParseError, CyApiLink } from '../utils/values';
-import * as request from 'request-promise-native';
 
 const getPlayerStr = (userJson: any): string => {
     const playerInfo = userJson.playInfo;
@@ -34,23 +39,23 @@ const getPlayerStr = (userJson: any): string => {
     return playerString;
 };
 
-export const getMatchInfo = async (matchKey: string): Promise<string> => {
-    const options = {
-        uri: CyApiLink + '/matches/' + matchKey,
-        qs: {
-            apikey: CyphersApiKey,
-        },
-    };
+export const getMatchInfo = async (
+    interaction: CommandInteraction
+): Promise<string> => {
+    const matchKey = interaction.options.getString('matching_id');
     try {
-        const json = JSON.parse(await request.get(options));
-        const outString: string = '시간 : ' + json.date;
+        const response = await axios.get(CyApiLink + '/matches/' + matchKey, {
+            params: { apikey: CyphersApiKey },
+        });
+        const result = response.data;
+        const outString: string = '시간 : ' + result.date;
         let win;
-        if (json.teams[0].result === 'win') win = json.teams[0].players;
-        else win = json.teams[1].players;
+        if (result.teams[0].result === 'win') win = result.teams[0].players;
+        else win = result.teams[1].players;
         let winstr = '';
         let losestr = '';
-        for (const player in json.players) {
-            const user = json.players[player];
+        for (const player in result.players) {
+            const user = result.players[player];
             let iswin = false;
             for (const winner in win) {
                 if (win[winner] === user.playerId) {
@@ -72,3 +77,12 @@ export const getMatchInfo = async (matchKey: string): Promise<string> => {
         return ParseError(error as Error);
     }
 };
+export const match_command = new SlashCommandBuilder()
+    .setName('매칭')
+    .setDescription('매칭정보를 조회합니다.')
+    .addStringOption(
+        new SlashCommandStringOption()
+            .setName('matching_id')
+            .setDescription('해당 메칭의 id')
+            .setRequired(true)
+    );

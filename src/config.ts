@@ -3,6 +3,7 @@ import { DataSourceOptions } from 'typeorm';
 import { BotServer } from './entity/BotServer';
 import { NewsDate } from './entity/NewsDate';
 import * as fs from 'fs';
+import * as process from 'process';
 
 const fileName = 'src/bot.env'
 if (fs.existsSync(fileName))
@@ -36,3 +37,4 @@ export const CyphersApiKey =
     process.env.cyphersKey || 'Your Neople Open API Key';
 export const DiscordApiKey = process.env.discordKey || 'Your Discord API Key';
 export const prefix = process.env.prefix || '!!';
+export const DiscordAppId = process.env.discordAppId || "Your Discord App ID"

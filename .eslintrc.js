@@ -15,7 +15,5 @@ module.exports = {
         jest: true,
         node: true
     },
-    ignorePatterns: ['.eslintrc.js'],
-    "rules": {
-    }
+    ignorePatterns: ['.eslintrc.js', "*.env"],
 }
