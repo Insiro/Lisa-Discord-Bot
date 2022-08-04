@@ -82,7 +82,7 @@ export const clanController = async (
 ): Promise<string | MessageEmbed> => {
     let result: string | MessageEmbed;
     if (!interaction.inGuild()) return '서버 에서만 가능합니다.';
-
+    return '홈페이지 리뉴얼로 사용이 불가합니다';
     switch (interaction.options.getSubcommand()) {
         case '접속자':
         case 'players':
