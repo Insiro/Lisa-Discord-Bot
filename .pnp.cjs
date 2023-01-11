@@ -45,7 +45,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/parser", "virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:5.30.7"],\
             ["axios", "npm:0.27.2"],\
             ["cheerio", "npm:1.0.0-rc.12"],\
-            ["class-validator", "npm:0.13.2"],\
+            ["class-validator", "npm:0.14.0"],\
             ["cross-env", "npm:7.0.3"],\
             ["discord-api-types", "npm:0.36.3"],\
             ["discord-command-parser", "npm:1.5.3"],\
@@ -1747,6 +1747,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/validator", [\
+        ["npm:13.7.10", {\
+          "packageLocation": "./.yarn/cache/@types-validator-npm-13.7.10-80d6b32ae6-7b142c0801.zip/node_modules/@types/validator/",\
+          "packageDependencies": [\
+            ["@types/validator", "npm:13.7.10"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/ws", [\
         ["npm:8.5.3", {\
           "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.3-ae52c483f1-0ce46f850d.zip/node_modules/@types/ws/",\
@@ -2668,11 +2677,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["class-validator", [\
-        ["npm:0.13.2", {\
-          "packageLocation": "./.yarn/cache/class-validator-npm-0.13.2-915206252c-0deb4c29fa.zip/node_modules/class-validator/",\
+        ["npm:0.14.0", {\
+          "packageLocation": "./.yarn/cache/class-validator-npm-0.14.0-b600d5fe72-f62e4a0ad2.zip/node_modules/class-validator/",\
           "packageDependencies": [\
-            ["class-validator", "npm:0.13.2"],\
-            ["libphonenumber-js", "npm:1.10.7"],\
+            ["class-validator", "npm:0.14.0"],\
+            ["@types/validator", "npm:13.7.10"],\
+            ["libphonenumber-js", "npm:1.10.18"],\
             ["validator", "npm:13.7.0"]\
           ],\
           "linkType": "HARD"\
@@ -2895,7 +2905,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/parser", "virtual:62f63a1b6611dfa6c666030d4e73363002cfc904125fc4cd2194bb14c795e33cf1e57918c61b73ff70ba3407758a9f7d1d77a59cd98adec67b9af66f6b58f3f4#npm:5.30.7"],\
             ["axios", "npm:0.27.2"],\
             ["cheerio", "npm:1.0.0-rc.12"],\
-            ["class-validator", "npm:0.13.2"],\
+            ["class-validator", "npm:0.14.0"],\
             ["cross-env", "npm:7.0.3"],\
             ["discord-api-types", "npm:0.36.3"],\
             ["discord-command-parser", "npm:1.5.3"],\
@@ -5013,10 +5023,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["libphonenumber-js", [\
-        ["npm:1.10.7", {\
-          "packageLocation": "./.yarn/cache/libphonenumber-js-npm-1.10.7-aa4a73544c-46c5afec95.zip/node_modules/libphonenumber-js/",\
+        ["npm:1.10.18", {\
+          "packageLocation": "./.yarn/cache/libphonenumber-js-npm-1.10.18-154a7b087a-df0a4b8adf.zip/node_modules/libphonenumber-js/",\
           "packageDependencies": [\
-            ["libphonenumber-js", "npm:1.10.7"]\
+            ["libphonenumber-js", "npm:1.10.18"]\
           ],\
           "linkType": "HARD"\
         }]\
