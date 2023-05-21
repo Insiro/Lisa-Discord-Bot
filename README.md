@@ -28,8 +28,8 @@ invite Link : https://discord.com/oauth2/authorize?client_id=719503554854912032&
 > 클랜주소 <PageKey>: 클랜의 주소를 설정합니다 - `"cyphers.nexon.com/cyphers/clan/<PageKey>"`  
 > 구독 <채널ID> : 신규 공지, 매거진 등을 해당 채널로 알람오게 합니다  
 > 구독 : 구독을 취소합니다
-
-
+## 사용 예시
+디스코드 봇의 사용 예시는 [이곳](./document/preview/preview.md) 에서 볼 수 있습니다.
 
 
 ## contribute
